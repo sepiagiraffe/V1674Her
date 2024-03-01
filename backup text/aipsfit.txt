@@ -1,0 +1,44 @@
+random stuff from newimg.pynb for aips fitting plotting
+aipsb_coord = SkyCoord(aipsb_df.iat[0,3], aipsb_df.iat[0,4], unit=(un.hourangle, un.degree), frame='fk5');
+aipsb_theta = aipsb_df.iat[0,7];
+aipsb_maj = aipsb_df.iat[0,5];
+aipsb_min = aipsb_df.iat[0,6];
+# aipsd_coord = SkyCoord(aipsd_df.iat[0,3], aipsd_df.iat[0,4], unit=(un.hourangle, un.degree), frame='fk5');
+# aipsd_theta = aipsd_df.iat[0,7];
+# aipsd_maj = aipsd_df.iat[0,5];
+# aipsd_min = aipsd_df.iat[0,6];
+# aipsft_coord = SkyCoord(aipsft_df.iat[0,3], aipsft_df.iat[0,4], unit=(un.hourangle, un.degree), frame='fk5');
+# aipsft_theta = aipsft_df.iat[0,7];
+# aipsft_maj = aipsft_df.iat[0,5];
+# aipsft_min = aipsft_df.iat[0,6];
+# aipsfnt_coord = SkyCoord(aipsfnt_df.iat[0,3], aipsfnt_df.iat[0,4], unit=(un.hourangle, un.degree), frame='fk5');
+# aipsfnt_theta = aipsfnt_df.iat[0,7];
+# aipsfnt_maj = aipsfnt_df.iat[0,5];
+# aipsfnt_min = aipsfnt_df.iat[0,6];
+
+
+aipsd_df = pd.read_csv('v1674herd_imfit.txt', delimiter='\s\s+', engine='python', header=[0,1]);
+aipsb_df = pd.read_csv('./imfit/v1674herb_imfit.txt', delimiter='\s\s+', engine='python', header=[0,1]);
+aipsft_df = pd.read_csv('./imfit/v1674herft_imfit.txt', delimiter='\s\s+', engine='python', header=[0,1]);
+aipsfnt_df = pd.read_csv('./imfit/v1674herfnt_imfit.txt', delimiter='\s\s+', engine='python', header=[0,1]);
+
+def aips_fit(name):
+    df = pd.read_csv(name, delimiter='\s\s+', engine='python', header=[0,1]);
+    coords = SkyCoord(df.iat[0,3], df.iat[0,4], unit=(un.hourangle, un.degree), frame='fk5');
+    return(df);
+    
+def fit_plotter(df, ax_name):
+    
+    coords = SkyCoord(df.iat[0,3], df.iat[0,4], unit=(un.hourangle, un.degree), frame='fk5');
+    theta = -df.iat[0,7];
+    maj = df.iat[0,5];
+    min = df.iat[0,6];
+    fitra = coords.ra.degree;
+    fitdec = coords.dec.degree;
+    # fit = Ellipse((fitra, fitdec), height=maj, width=min, angle=theta,
+    #               transform=ax_name.get_transform('fk5'), edgecolor='w', facecolor='w', 
+    #               alpha=0.5, lw=2);
+    fit = Ellipse((fitra, fitdec), height=maj, width = min, 
+                   angle=-theta, transform=ax_name.get_transform('fk5'), edgecolor='w',
+                   facecolor='w', alpha=0.7, lw=2);
+    return(fit);

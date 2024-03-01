@@ -1,0 +1,5 @@
+
+ Row #   Peak int    Tot int  Right Ascension      Declination   Maj axis   Min axis  Pos angle  Decon maj  Decon min   Decon PA
+     #   uJy/beam        uJy       hms                dms             mas        mas    degrees        mas        mas    degrees
+ 
+     1     24.192    926.096  18:57:30.977917   16:53:39.49435     14.925      8.753    131.776     14.552      8.310    129.261

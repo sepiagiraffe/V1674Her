@@ -1,0 +1,32 @@
+IMFIT1: ********* Solution from IMFIT *********************************
+IMFIT1: Error estimate based on rms 1.444E-05 JY/BEAM
+IMFIT1:
+IMFIT1: Component   1 - Gaussian
+IMFIT1:   Peak intensity    = 1.7149E-04 +/- 1.30E-05 JY/BEAM   ( 13.16)
+IMFIT1:   Integral intensity= 1.0954E-03 +/- 9.54E-05 JANSKYS
+IMFIT1:   X-position        =    560.555 +/-   1.2534 pixels
+IMFIT1:   Y-position        =    541.427 +/-   1.3949 pixels
+IMFIT1:                       RA 18 57 30.9774926  +/-  0.000013099
+IMFIT1:                       DEC 16 53 39.494264  +/-   0.00020923
+IMFIT1:   Major axis        =  43.242 +/-  3.2847 pixels
+IMFIT1:   Minor axis        =  38.855 +/-  2.9515 pixels
+IMFIT1:   Position angle    = 179.995 +/- 28.714 degrees
+IMFIT1:   Major axis        = 0.0064863 +/- 0.0004927 asec
+IMFIT1:   Minor axis        = 0.0058283 +/- 0.0004427 asec
+IMFIT1:   Position angle    = 179.995 +/- 28.714 degrees
+IMFIT1:   RASHIFT=   0.000067 DECSHIFT=   0.000064 to center on pixel
+IMFIT1:   - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+IMFIT1:                   Deconvolution of component in pixels
+IMFIT1:                        Nominal     Minimum     Maximum
+IMFIT1:     Major ax            37.306      32.282      42.128
+IMFIT1:     Minor ax            35.825      30.436      41.218
+IMFIT1:     Pos ang             89.995      46.695     133.294
+IMFIT1:                   Deconvolution of component in asec
+IMFIT1:                        Nominal     Minimum     Maximum
+IMFIT1:     Major ax          0.005596    0.004842    0.006319
+IMFIT1:     Minor ax          0.005374    0.004565    0.006183
+IMFIT1:     Pos ang          89.994934   46.695217  133.294128
+IMFIT1:   Component appears resolved, use integral as total flux
+IMFIT1:   - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+IMFIT1: returns adverbs to AIPS
+IMFIT1: Appears to have ended successfully

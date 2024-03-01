@@ -1,0 +1,9 @@
+AIPS 1: Mean=-2.879E-06 rms= 1.694E-05 JY/BEAM  over      102272. pixels
+AIPS 1: Maximum= 4.9760E-05 at    535    681     1    1    1    1    1
+AIPS 1: Skypos: RA 18 57 30.9767596  DEC 16 53 39.513200
+AIPS 1: Skypos: IPOL  4867.750 MHz
+AIPS 1: Minimum=-5.5183E-05 at    522    776     1    1    1    1    1
+AIPS 1: Skypos: RA 18 57 30.9768955  DEC 16 53 39.527450
+AIPS 1: Skypos: IPOL  4867.750 MHz
+AIPS 1: Flux density = -1.0792E-03 Jy   Beam area =   272.84 pixels
+

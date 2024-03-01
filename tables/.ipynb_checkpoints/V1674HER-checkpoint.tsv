@@ -1,0 +1,99 @@
+#
+#   VizieR Astronomical Server vizier.cds.unistra.fr
+#    Date: 2023-06-26T20:15:25 [V7.32]
+#   In case of problem, please report to:	cds-question@unistra.fr
+#
+#
+#Coosys	J2000:	eq_FK5 J2000
+#INFO	protocol=ASU	
+#INFO	request_date=2023-06-26T20:15:25	
+#INFO	request_post=https://vizier.cds.unistra.fr//viz-bin/asu-tsv	
+#-out=DEJ2000
+#
+#INFO	contact=cds-question@unistra.fr	
+#INFO	version=7.32	
+#INFO	-out.max=1	
+#INFO	-c=284.379000+16.894222,rm=2.	
+#Constraint -bmark=POST
+
+#RESOURCE=yCat_1355
+#Name: I/355
+#Title: Gaia DR3 Part 1. Main source (Gaia Collaboration, 2022)
+#INFO	ivoid=ivo://cds.vizier/i/355	
+#INFO	publisher=CDS	
+#INFO	creator=Gaia collaboration	
+#INFO	related_resource=bibcode:2022yCat.1355....0G	
+#INFO	landing_page=https://cdsarc.cds.unistra.fr/viz-bin/cat/I/355	
+#INFO	publication_id=doi:10.26093/cds/vizier.1355	
+#INFO	publication_date=2022-12-05	
+#INFO	curation_level=RESEARCH	
+#INFO	rights=https://cds.unistra.fr/vizier-org/licences_vizier.html	
+#Coosys	H_2016.000:	ICRS
+#Table	I_355_gaiadr3:
+#Name: I/355/gaiadr3
+#Title: Gaia DR3 source catalog (1811709771 sources)
+#Column	_r	(F6.4)	Distance from center (284.37900000000+16.89422222222)[ICRS], at Epoch=J2016.0	[ucd=pos.angDistance]
+#Column	_RAJ2000	(F17.13)	Right ascension (FK5, Equinox=J2000.0) at Epoch=J2000, proper motions taken into account 	[ucd=pos.eq.ra]
+#Column	_DEJ2000	(F17.13)	Declination (FK5, Equinox=J2000.0) at Epoch=J2000, proper motions taken into account 	[ucd=pos.eq.dec]
+#Column	RA_ICRS	(F15.11)	Right ascension (ICRS) at Ep=2016.0 (ra)	[ucd=pos.eq.ra;meta.main]
+#Column	DE_ICRS	(F15.11)	Declination (ICRS) at Ep=2016.0 (dec)	[ucd=pos.eq.dec;meta.main]
+#Column	Source	(I19)	Unique source identifier (unique within a particular Data Release) (source_id)	[ucd=meta.id;meta.main]
+#Column	e_RA_ICRS	(F7.4)	Standard error of right ascension (ra_error)	[ucd=stat.error;pos.eq.ra]
+#Column	e_DE_ICRS	(F7.4)	Standard error of declination (dec_error)	[ucd=stat.error;pos.eq.dec]
+#Column	Plx	(F9.4)	? Parallax (parallax)	[ucd=pos.parallax.trig]
+#Column	e_Plx	(F7.4)	? Standard error of parallax (parallax_error)	[ucd=stat.error;pos.parallax.trig]
+#Column	PM	(F9.3)	? Total proper motion (pm)	[ucd=pos.pm;pos.eq]
+#Column	pmRA	(F9.3)	? Proper motion in right ascension direction, pmRA*cosDE (pmra)	[ucd=pos.pm;pos.eq.ra]
+#Column	e_pmRA	(F6.3)	? Standard error of proper motion in right ascension direction (pmra_error)	[ucd=stat.error;pos.pm;pos.eq.ra]
+#Column	pmDE	(F9.3)	? Proper motion in declination direction (pmdec)	[ucd=pos.pm;pos.eq.dec]
+#Column	e_pmDE	(F6.3)	? Standard error of proper motion in declination direction (pmdec_error)	[ucd=stat.error;pos.pm;pos.eq.dec]
+#Column	RUWE	(F7.3)	? Renormalised unit weight error (ruwe)	[ucd=stat.error]
+#Column	FG	(F16.5)	? G-band mean flux (phot_g_mean_flux)	[ucd=phot.flux;em.opt]
+#Column	e_FG	(E11.4)	? Error on G-band mean flux (phot_g_mean_flux_error)	[ucd=stat.error;phot.flux;em.opt]
+#Column	Gmag	(F9.6)	? G-band mean magnitude (phot_g_mean_mag)	[ucd=phot.mag;em.opt]
+#Column	FBP	(E11.4)	? Integrated BP mean flux (phot_bp_mean_flux)	[ucd=phot.flux;em.opt.B]
+#Column	e_FBP	(E11.4)	? Error on the integrated BP mean flux (phot_bp_mean_flux_error)	[ucd=stat.error;phot.flux;em.opt.B]
+#Column	BPmag	(F9.6)	? Integrated BP mean magnitude (phot_bp_mean_mag)	[ucd=phot.mag;em.opt.B]
+#Column	FRP	(E11.4)	? Integrated RP mean flux (phot_rp_mean_flux)	[ucd=phot.flux;em.opt.R]
+#Column	e_FRP	(E11.4)	? Error on the integrated RP mean flux (phot_rp_mean_flux_error)	[ucd=stat.error;phot.flux;em.opt.R]
+#Column	RPmag	(F9.6)	? Integrated RP mean magnitude (phot_rp_mean_mag)	[ucd=phot.mag;em.opt.R]
+#Column	BP-RP	(F9.6)	? BP-RP colour (bp_rp)	[ucd=phot.color;em.opt.B;em.opt.R]
+#Column	RV	(F7.2)	? Radial velocity (radial_velocity)	[ucd=spect.dopplerVeloc.opt;em.opt.I]
+#Column	e_RV	(F5.2)	? Radial velocity error (radial_velocity_error)	[ucd=stat.error;spect.dopplerVeloc.opt;em.opt.I]
+#Column	Vbroad	(F8.4)	? Spectral line broadening parameter	[ucd=spect.dopplerVeloc.opt;em.opt.I]
+#Column	GRVSmag	(F9.6)	? Integrated Grvs magnitude (grvs_mag)	[ucd=phot.mag;em.opt]
+#Column	QSO	(I1)	[0/1] Flag indicating the availability of additional information in the QSO candidates table (in_qso_candidates)	[ucd=meta.code.status]
+#Column	Gal	(I1)	[0/1] Flag indicating the availability of additional information in the galaxy candidates table (in_galaxy_candidates)	[ucd=meta.code.status]
+#Column	NSS	(I1)	[0/7] Flag indicating the availability of additional information in the various Non-Single Star tables (non_single_star)	[ucd=meta.code.status]
+#Column	XPcont	(I1)	[0/1] Flag indicating the availability of mean BP/RP spectrum in continuous representation for this source (has_xp_continuous)	[ucd=meta.code.status]
+#Column	XPsamp	(I1)	[0/1] Flag indicating the availability of mean BP/RP spectrum in sampled form for this source (has_xp_sampled)	[ucd=meta.code.status]
+#Column	RVS	(I1)	[0/1] Flag indicating the availability of mean RVS spectrum for this source (has_rvs)	[ucd=meta.code.status]
+#Column	EpochPh	(I1)	[0/1] Flag indicating the availability of epoch photometry for this source (has_epoch_photometry)	[ucd=meta.code.status]
+#Column	EpochRV	(I1)	[0/1] Flag indicating the availability of epoch radial velocity for this source (has_epoch_rv)	[ucd=meta.code.status]
+#Column	MCMCGSP	(I1)	[0/1] Flag indicating the availability of GSP-Phot MCMC samples for this source (has_mcmc_gspphot)	[ucd=meta.code.status]
+#Column	MCMCMSC	(I1)	[0/1] Flag indicating the availability of MSC MCMC samples for this source (has_mcmc_msc)	[ucd=meta.code.status]
+#Column	And	(I1)	[0/1] Flag indicating that the source is present in the Gaia Andromeda Photometric Survey (GAPS) (in_andromeda_survey)	[ucd=meta.code.status]
+#Column	Teff	(F7.1)	? Effective temperature from GSP-Phot Aeneas best library using BP/RP spectra (teff_gspphot)	[ucd=phys.temperature.effective]
+#Column	logg	(F7.4)	? Surface gravity from GSP-Phot Aeneas best library using BP/RP spectra (logg_gspphot)	[ucd=phys.gravity]
+#Column	[Fe/H]	(F7.4)	? Iron abundance from GSP-Phot Aeneas best library using BP/RP spectra (mh_gspphot)	[ucd=phys.abund.Z]
+#Column	Dist	(F10.4)	? Distance from GSP-Phot Aeneas best library using BP/RP spectra (distance_gspphot)	[ucd=pos.distance;pos.eq]
+#Column	A0	(F7.4)	? Monochromatic extinction A_0 at 547.7nm from GSP-Phot Aeneas best library using BP/RP spectra (azero_gspphot)	[ucd=phys.absorption;em.opt]
+#Column	HIP	(I6)	? HIP cross-id number, van Leeuwen, Cat. I/311 (hip_original_ext_source_id) [NULL integer written as an empty string]	[ucd=meta.number;phys.atmol.number]
+#Column	PS1	(I18)	? PS1 cross-id name, Chambers et al., Cat. II/349 (ps1_original_ext_source_id) [NULL integer written as an empty string]	[ucd=meta.id.cross]
+#Column	SDSS13	(I19)	? SDSS name, Albareti et al., 2017ApJS..233...25A (sdss13_ext_source_id) [NULL integer written as an empty string]	[ucd=meta.id.cross]
+#Column	SKYM2	(I9)	? SkyMapperDR2 cross-id name, Onken et al., 2019PASA...36...33O (skym2_original_ext_source_id) [NULL integer written as an empty string]	[ucd=meta.id.cross]
+#Column	TYC2	(a12)	Tycho-2 cross-id name, Hog et al., Cat. I/259 (tyc2_original_ext_source_id)	[ucd=meta.id.cross]
+#Column	URAT1	(a15)	URAT1 name, Zacharias et al., Cat. I/329 (urat1_original_ext_source_id)	[ucd=meta.id.cross]
+#Column	AllWISE	(a19)	ALLWISE cross-id name, Cutri et al., Cat. II/328 (allwise_original_ext_source_id)	[ucd=meta.id.cross]
+#Column	APASS9	(I8)	? APASS9 identification, Henden et al., Cat. II/336 (apass9_original_ext_source_id) [NULL integer written as an empty string]	[ucd=meta.id.cross]
+#Column	GSC23	(a10)	GSC2.3 cross-id name, Lasker et al., Cat. I/305 (gsc23_original_ext_source_id)	[ucd=meta.id.cross]
+#Column	RAVE5	(a16)	RAVE DR5 cross-id name, Kunder et al., Cat. III/279 (rave5_original_ext_source_id)	[ucd=meta.id.cross]
+#Column	2MASS	(a17)	2MASS cross-id name, Cutri et al., Cat. II/246 (twomass_original_ext_source_id)	[ucd=meta.id.cross]
+#Column	RAVE6	(a21)	RAVE DR6 cross-id name, Steinmetz et al., Cat. III/283 (rave6_original_ext_source_id)	[ucd=meta.id.cross]
+#Column	RAJ2000	(F15.11)	Barycentric right ascension (ICRS) at Ep=2000.0 (added by CDS) (ra2000)	[ucd=pos.eq.ra]
+#Column	DEJ2000	(F15.11)	Barycentric declination (ICRS) at Ep=2000.0 (added by CDS) (dec2000)	[ucd=pos.eq.dec]
+_r	_RAJ2000	_DEJ2000	RA_ICRS	DE_ICRS	Source	e_RA_ICRS	e_DE_ICRS	Plx	e_Plx	PM	pmRA	e_pmRA	pmDE	e_pmDE	RUWE	FG	e_FG	Gmag	FBP	e_FBP	BPmag	FRP	e_FRP	RPmag	BP-RP	RV	e_RV	Vbroad	GRVSmag	QSO	Gal	NSS	XPcont	XPsamp	RVS	EpochPh	EpochRV	MCMCGSP	MCMCMSC	And	Teff	logg	[Fe/H]	Dist	A0	HIP	PS1	SDSS13	SKYM2	TYC2	URAT1	AllWISE	APASS9	GSC23	RAVE5	2MASS	RAVE6	RAJ2000	DEJ2000
+arcmin	deg	deg	deg	deg	 	mas	mas	mas	mas	mas/yr	mas/yr	mas/yr	mas/yr	mas/yr	 	e-/s	e-/s	mag	e-/s	e-/s	mag	e-/s	e-/s	mag	mag	km/s	km/s	km/s	mag	 	 	 	 	 	 	 	 	 	 	 	K	[cm/s2]	[-]	pc	mag	 	 	 	 	 	 	 	 	 	 	 	 	deg	deg
+------	-----------------	-----------------	---------------	---------------	-------------------	-------	-------	---------	-------	---------	---------	------	---------	------	-------	----------------	-----------	---------	-----------	-----------	---------	-----------	-----------	---------	---------	-------	-----	--------	---------	-	-	-	-	-	-	-	-	-	-	-	-------	-------	-------	----------	-------	------	------------------	-------------------	---------	------------	---------------	-------------------	--------	----------	----------------	-----------------	---------------------	---------------	---------------
+0.0069	284.3790968502748	+16.8943304284506	284.37907767182	+16.89430964961	4514092717838547584	 0.6154	 0.8425	  -0.9363	 0.6273	    6.237	   -4.129	 0.705	   -4.675	 0.892	  1.029	       197.22603	 3.7030e+00	19.949957	           	           	         	           	           	         	         	       	     	        	         	0	0	0	0	0	0	0	0	0	0	0	       	       	       	          	       	      	128272843790893680	                   	         	            	               	                   	        	N2D3059631	                	                 	                     	284.37909685027	 16.89433042845
+

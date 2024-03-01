@@ -1,0 +1,5 @@
+     Flux (Jy)          East (arcsec)        North (arcsec)    Shape   R.A. (deg)       Dec (deg)  Major FWHM (arcsec) Minor FWHM (arcsec)  Theta (deg)     Freq (Hz)      Spectral Index  
+   Value     Stdev      Value     Stdev      Value     Stdev                                          Value    Stdev     Value    Stdev     Value  Stdev                   Value     Stdev 
+ ------------------  -------------------  ------------------- ------  -------------- -------------- -----------------  -----------------  ---------------  -----------  -------------------
+ 5.8057e-04 5.3e-05   1.1764e-02 9.9e-04  -5.4818e-03 1.0e-03  gauss  284.3790742486  16.8943037550 2.357e-02 2.3e-03  7.275e-03 7.5e-03   -50.23 4.5e+00  4.86775e+09   0.000e+00  0.0e+00
+
