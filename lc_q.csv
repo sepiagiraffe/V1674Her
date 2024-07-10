@@ -1,0 +1,16 @@
+,Day,Freq,Flux,Error,Unnamed: 4
+7,3.37,34.9,0.1,0.05,flux from deepclean image
+15,4.35,34.9,0.13,0.05,flux from deepclean image
+23,5.38,34.9,0.21,0.05,flux from deepclean image
+31,9.35,34.9,0.95,0.06,
+39,10.34,34.9,1.54,0.05,
+47,13.28,34.9,3.92,0.06,
+55,15.36,34.9,5.18,0.06,
+63,31.19,34.9,7.12,0.04,
+71,44.34,34.9,3.22,0.07,flux from the deepclean image
+79,74.21,34.9,0.74,0.05,flux from the deepclean image
+87,83.19,34.9,0.41,0.05,flux from the deepclean image
+95,91.15,34.9,0.33,0.05,flux from the deepclean image
+103,142.99,34.9,0.06,0.05,non-detection
+111,315.61,34.9,0.05,0.07,non-detection
+119,409.3,34.9,-0.03,0.06,non-detection
