@@ -1,0 +1,40 @@
+To use the functions the following packages are **required**:
+    #these are required for reading the files, plotting, and some of the analysis functions
+
+    astropy, numpy, pandas, matplotlib, math, sys
+    
+    
+    for a more detailed list, and how to import them:
+
+    from astropy.wcs import WCS
+    from astropy import wcs
+    from astropy.io import fits, ascii
+    from astropy.coordinates import Angle, SkyCoord
+    from astropy.nddata import Cutout2D
+    from astropy.modeling import models, fitting
+    from astropy import time
+    
+    import astropy.units as un
+    import numpy as np
+    import pandas as pd
+
+    from matplotlib.patches import Ellipse, Rectangle, Arc
+    import matplotlib.pyplot as plt
+    from matplotlib.colors import LogNorm
+    from matplotlib.ticker import MultipleLocator, FixedFormatter
+    from matplotlib.ticker import FormatStrFormatter
+    from matplotlib.legend_handler import HandlerTuple
+    from matplotlib.lines import Line2D
+
+    import sys
+    import math
+
+
+The following are **recommended**:
+    from astropy.constants import mu0 #this one is required for magnetic pressure
+
+    #these are required for print statements involving latex formatting, currently are required but is a WIP
+    
+    from Ipython.display import display, Math
+    import warnings
+    warnings.filterwarnings("ignore");
