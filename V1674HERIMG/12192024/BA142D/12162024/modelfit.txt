@@ -1,0 +1,6 @@
+Iteration 08: Reduced Chi-squared=1.4229606  Degrees of Freedom=593848
+! Flux (Jy) Radius (mas)  Theta (deg)  Major (mas)  Axial ratio   Phi (deg) T \
+! Freq (Hz)     SpecIndex
+0.000979596v     5.19664v    -73.3553v     13.2972v    0.375371v   -45.5981v 1 \
+ 4.86775e+09           0 
+

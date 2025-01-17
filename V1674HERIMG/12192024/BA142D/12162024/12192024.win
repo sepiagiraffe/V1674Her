@@ -1,0 +1,5 @@
+! CLEAN windows written by wwins in difmap.
+! Windows are specified as xmin xmax ymin ymax (mas).
+    -25.1827450     -13.7099943     -53.6043053     -41.8373795
+    -23.0254745     -13.7099943     -56.1538048     -51.6431503
+    -16.2191448     -11.1761789     -59.1707115     -50.9758949

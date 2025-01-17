@@ -1,0 +1,410 @@
+! Started logfile: difmap.log on Mon Dec 16 16:48:05 2024
+obs ../V1674HERB.FITS
+! Reading UV FITS file: ../V1674HERB.FITS
+! AN table 1: 6319 integrations on 28 of 28 possible baselines.
+! Apparent sampling: 0.973741 visibilities/baseline/integration-bin.
+! Found source: V1674HER
+! 
+! There are 4 IFs, and a total of 4 channels:
+! 
+!  IF  Channel    Frequency  Freq offset  Number of   Overall IF
+!       origin    at origin  per channel   channels    bandwidth
+!  ------------------------------------------------------------- (Hz)
+!  01        1  4.67575e+09     1.28e+08          1     1.28e+08
+!  02        2  4.80375e+09     1.28e+08          1     1.28e+08
+!  03        3  4.93175e+09     1.28e+08          1     1.28e+08
+!  04        4  5.05975e+09     1.28e+08          1     1.28e+08
+! 
+! Polarization(s): RR LL RL LR
+! 
+! Read 1301 lines of history.
+! 
+! Reading 2756576 visibilities.
+select i
+! Selecting polarization: I,  channels: 1..4
+! Reading IF 1 channels: 1..1
+! Reading IF 2 channels: 2..2
+! Reading IF 3 channels: 3..3
+! Reading IF 4 channels: 4..4
+mapsi 2048, 0.15
+! Map grid = 2048x2048 pixels with 0.150x0.150 milli-arcsec cellsize.
+uvw 0, -1
+! Uniform weighting is not currently selected.
+! Gridding weights will be scaled by errors raised to the power -1.
+! Radial weighting is not currently selected.
+mapl
+! Inverting map and beam 
+! Estimated beam: bmin=1.428 mas, bmaj=3.132 mas, bpa=-0.2817 degrees
+! Estimated noise=0.0110445 mJy/beam.
+! 
+! Move the cursor into the plot window and press 'H' for help
+! Pixel value at x=-21.6 y=-51.8 (mas) is 0.000146 Jy/beam
+!  RA = 18 57 30.977,  Dec = +16 53 39.488 (2000.0)
+shiftto 18:57:30.977, +16:53:39.488
+! Shifting UV data, models and windows by: 28.7064 (mas) East
+! Shifting UV data, models and windows by: 52.0001 (mas) North
+! Total accumulated eastward shift  = 28.7064 (mas).
+! Total accumulated northward shift = 52.0001 (mas).
+mapl
+! Inverting map 
+! 
+! Move the cursor into the plot window and press 'H' for help
+radpl
+! Using default options string "m1"
+! Move the cursor into the plot window and press 'H' for help
+! Applying 39 buffered edits.
+uvaver 6, true
+! Averaging into 6 second bins.
+! Selecting polarization: I,  channels: 1..4
+! Reading IF 1 channels: 1..1
+! Reading IF 2 channels: 2..2
+! Reading IF 3 channels: 3..3
+! Reading IF 4 channels: 4..4
+mapl
+! Inverting map and beam 
+! Estimated beam: bmin=1.422 mas, bmaj=3.114 mas, bpa=-0.6652 degrees
+! Estimated noise=0.0116584 mJy/beam.
+! 
+! Move the cursor into the plot window and press 'H' for help
+modelfit 30
+! Partitioning the model into established and variable parts.
+! The fixed established model contains 0 components (0 Jy).
+! The variable part of the model contains 1 components (0.000133398 Jy).
+! There are 4 variables and 228833 usable visibilities.
+! This gives 2 x 228833 - 4 = 457662 degrees of freedom.
+! Reduced Chi-squared = Chi-squared / 457662.
+! 
+! Iteration 00: Reduced Chi-squared=1.4285748  Degrees of Freedom=457662
+! ! Flux (Jy) Radius (mas)  Theta (deg)  Major (mas)  Axial ratio   Phi (deg) T \
+! ! Freq (Hz)     SpecIndex
+! 0.000133398v     5.19890v     99.1263v     34.1847v     1.00000    -127.569  1 \
+!  4.86775e+09           0 
+! 
+! Iteration 01: Reduced Chi-squared=1.4286790 (Increased)
+! Iteration 02: Reduced Chi-squared=1.4286790 (Increased)
+! Iteration 03: Reduced Chi-squared=1.4286790 (Increased)
+! Iteration 04: Reduced Chi-squared=1.4286790 (Increased)
+! Iteration 05: Reduced Chi-squared=1.4286653 (Increased)
+! 
+! Iteration 06: Reduced Chi-squared=1.4282943  Degrees of Freedom=457662
+! ! Flux (Jy) Radius (mas)  Theta (deg)  Major (mas)  Axial ratio   Phi (deg) T \
+! ! Freq (Hz)     SpecIndex
+! 0.000222942v     6.49929v     87.0275v     21.5908v     1.00000    -127.569  1 \
+!  4.86775e+09           0 
+! 
+! Iteration 07: Reduced Chi-squared=1.4274135  Degrees of Freedom=457662
+! ! Flux (Jy) Radius (mas)  Theta (deg)  Major (mas)  Axial ratio   Phi (deg) T \
+! ! Freq (Hz)     SpecIndex
+! 0.000311523v     6.32391v     90.0847v     8.82689v     1.00000    -127.569  1 \
+!  4.86775e+09           0 
+! 
+! Iteration 08: Reduced Chi-squared=1.4270222  Degrees of Freedom=457662
+! ! Flux (Jy) Radius (mas)  Theta (deg)  Major (mas)  Axial ratio   Phi (deg) T \
+! ! Freq (Hz)     SpecIndex
+! 0.000396799v     6.45166v     89.9218v     7.55548v     1.00000    -127.569  1 \
+!  4.86775e+09           0 
+! 
+! Iteration 09: Reduced Chi-squared=1.4265929  Degrees of Freedom=457662
+! ! Flux (Jy) Radius (mas)  Theta (deg)  Major (mas)  Axial ratio   Phi (deg) T \
+! ! Freq (Hz)     SpecIndex
+! 0.000519022v     6.60213v     89.4936v     6.87440v     1.00000    -127.569  1 \
+!  4.86775e+09           0 
+! 
+! Iteration 10: Reduced Chi-squared=1.4261638  Degrees of Freedom=457662
+! ! Flux (Jy) Radius (mas)  Theta (deg)  Major (mas)  Axial ratio   Phi (deg) T \
+! ! Freq (Hz)     SpecIndex
+! 0.000684111v     6.76886v     88.8915v     6.84666v     1.00000    -127.569  1 \
+!  4.86775e+09           0 
+! 
+! Iteration 11: Reduced Chi-squared=1.4257602  Degrees of Freedom=457662
+! ! Flux (Jy) Radius (mas)  Theta (deg)  Major (mas)  Axial ratio   Phi (deg) T \
+! ! Freq (Hz)     SpecIndex
+! 0.000898763v     6.93931v     88.1058v     7.37362v     1.00000    -127.569  1 \
+!  4.86775e+09           0 
+! 
+! Iteration 12: Reduced Chi-squared=1.4254417  Degrees of Freedom=457662
+! ! Flux (Jy) Radius (mas)  Theta (deg)  Major (mas)  Axial ratio   Phi (deg) T \
+! ! Freq (Hz)     SpecIndex
+! 0.00115875v     7.07113v     87.2889v     8.29170v     1.00000    -127.569  1 \
+!  4.86775e+09           0 
+! 
+! Iteration 13: Reduced Chi-squared=1.4252703  Degrees of Freedom=457662
+! ! Flux (Jy) Radius (mas)  Theta (deg)  Major (mas)  Axial ratio   Phi (deg) T \
+! ! Freq (Hz)     SpecIndex
+! 0.00142092v     7.07833v     87.0394v     9.28228v     1.00000    -127.569  1 \
+!  4.86775e+09           0 
+! 
+! Iteration 14: Reduced Chi-squared=1.4252178  Degrees of Freedom=457662
+! ! Flux (Jy) Radius (mas)  Theta (deg)  Major (mas)  Axial ratio   Phi (deg) T \
+! ! Freq (Hz)     SpecIndex
+! 0.00160697v     6.94271v     87.6433v     9.99300v     1.00000    -127.569  1 \
+!  4.86775e+09           0 
+! 
+! Iteration 15: Reduced Chi-squared=1.4252094  Degrees of Freedom=457662
+! ! Flux (Jy) Radius (mas)  Theta (deg)  Major (mas)  Axial ratio   Phi (deg) T \
+! ! Freq (Hz)     SpecIndex
+! 0.00168856v     6.80103v     88.3660v     10.3227v     1.00000    -127.569  1 \
+!  4.86775e+09           0 
+! 
+! Iteration 16: Reduced Chi-squared=1.4252087  Degrees of Freedom=457662
+! ! Flux (Jy) Radius (mas)  Theta (deg)  Major (mas)  Axial ratio   Phi (deg) T \
+! ! Freq (Hz)     SpecIndex
+! 0.00170997v     6.73384v     88.7149v     10.4209v     1.00000    -127.569  1 \
+!  4.86775e+09           0 
+! 
+! Iteration 17: Reduced Chi-squared=1.4252087  Degrees of Freedom=457662
+! ! Flux (Jy) Radius (mas)  Theta (deg)  Major (mas)  Axial ratio   Phi (deg) T \
+! ! Freq (Hz)     SpecIndex
+! 0.00171385v     6.71487v     88.8099v     10.4426v     1.00000    -127.569  1 \
+!  4.86775e+09           0 
+! 
+! Iteration 18: Reduced Chi-squared=1.4252087  Degrees of Freedom=457662
+! ! Flux (Jy) Radius (mas)  Theta (deg)  Major (mas)  Axial ratio   Phi (deg) T \
+! ! Freq (Hz)     SpecIndex
+! 0.00171448v     6.71101v     88.8280v     10.4468v     1.00000    -127.569  1 \
+!  4.86775e+09           0 
+! 
+! Iteration 19: Reduced Chi-squared=1.4252087  Degrees of Freedom=457662
+! ! Flux (Jy) Radius (mas)  Theta (deg)  Major (mas)  Axial ratio   Phi (deg) T \
+! ! Freq (Hz)     SpecIndex
+! 0.00171457v     6.71033v     88.8311v     10.4474v     1.00000    -127.569  1 \
+!  4.86775e+09           0 
+! 
+! Iteration 20: Reduced Chi-squared=1.4252087  Degrees of Freedom=457662
+! ! Flux (Jy) Radius (mas)  Theta (deg)  Major (mas)  Axial ratio   Phi (deg) T \
+! ! Freq (Hz)     SpecIndex
+! 0.00171459v     6.71022v     88.8315v     10.4476v     1.00000    -127.569  1 \
+!  4.86775e+09           0 
+! 
+! Iteration 21: Reduced Chi-squared=1.4252087  Degrees of Freedom=457662
+! ! Flux (Jy) Radius (mas)  Theta (deg)  Major (mas)  Axial ratio   Phi (deg) T \
+! ! Freq (Hz)     SpecIndex
+! 0.00171459v     6.71020v     88.8316v     10.4476v     1.00000    -127.569  1 \
+!  4.86775e+09           0 
+! 
+! Iteration 22: Reduced Chi-squared=1.4252087 (Increased)
+! Iteration 23: Reduced Chi-squared=1.4252087 (Increased)
+! Iteration 24: Reduced Chi-squared=1.4252087 (Increased)
+! Iteration 25: Reduced Chi-squared=1.4252087 (Increased)
+! Iteration 26: Reduced Chi-squared=1.4252087 (Increased)
+! Iteration 27: Reduced Chi-squared=1.4252087 (Increased)
+! Iteration 28: Reduced Chi-squared=1.4252087 (Increased)
+! Iteration 29: Reduced Chi-squared=1.4252087 (Increased)
+! Iteration 30: Reduced Chi-squared=1.4252087 (Increased)
+mapl
+! Adding 1 model components to the UV plane model.
+! The established model now contains 1 components and 0.00171459 Jy
+! Inverting map 
+! 
+! Move the cursor into the plot window and press 'H' for help
+mapl cln
+! restore: Substituting estimate of restoring beam from last 'invert'.
+! Restoring with beam: 1.422 x 3.114 at -0.6652 degrees (North through East)
+! Clean map  min=-6.9253e-05  max=8.9892e-05 Jy/beam
+! 
+! Move the cursor into the plot window and press 'H' for help
+selfcal false, false, 1000
+! Performing phase self-cal over 1000 minute time intervals
+! 
+! Correcting IF 1.
+!  A total of 837 telescope corrections were flagged in sub-array 1.
+! 
+! Correcting IF 2.
+!  A total of 837 telescope corrections were flagged in sub-array 1.
+! 
+! Correcting IF 3.
+!  A total of 837 telescope corrections were flagged in sub-array 1.
+! 
+! Correcting IF 4.
+!  A total of 837 telescope corrections were flagged in sub-array 1.
+! 
+! Fit before self-cal, rms=0.009674Jy  sigma=1.193815
+! Fit after  self-cal, rms=0.009674Jy  sigma=1.193796
+clrmod true
+! clrmod: Cleared the established and tentative models.
+mapl
+! Inverting map and beam 
+! Estimated beam: bmin=1.422 mas, bmaj=3.114 mas, bpa=-0.6673 degrees
+! Estimated noise=0.0116592 mJy/beam.
+! 
+! Move the cursor into the plot window and press 'H' for help
+clean 100, 0.05
+! clean: niter=100  gain=0.05  cutoff=0
+! Component: 050  -  total flux cleaned = 0.000320961 Jy
+! Component: 100  -  total flux cleaned = 0.000547177 Jy
+! Total flux subtracted in 100 components = 0.000547177 Jy
+! Clean residual min=-0.000091 max=0.000091 Jy/beam
+! Clean residual mean=-0.000000 rms=0.000027 Jy/beam
+! Combined flux in latest and established models = 0.000547177 Jy
+mapl
+! 
+! Move the cursor into the plot window and press 'H' for help
+clean 500, 0.001
+! clean: niter=500  gain=0.001  cutoff=0
+! Component: 050  -  total flux cleaned = 3.92891e-06 Jy
+! Component: 100  -  total flux cleaned = 7.82299e-06 Jy
+! Component: 150  -  total flux cleaned = 1.16928e-05 Jy
+! Component: 200  -  total flux cleaned = 1.55397e-05 Jy
+! Component: 250  -  total flux cleaned = 1.93666e-05 Jy
+! Component: 300  -  total flux cleaned = 2.3175e-05 Jy
+! Component: 350  -  total flux cleaned = 2.69658e-05 Jy
+! Component: 400  -  total flux cleaned = 3.07392e-05 Jy
+! Component: 450  -  total flux cleaned = 3.44956e-05 Jy
+! Component: 500  -  total flux cleaned = 3.82352e-05 Jy
+! Total flux subtracted in 500 components = 3.82352e-05 Jy
+! Clean residual min=-0.000089 max=0.000090 Jy/beam
+! Clean residual mean=-0.000000 rms=0.000026 Jy/beam
+! Combined flux in latest and established models = 0.000585412 Jy
+mapl
+! 
+! Move the cursor into the plot window and press 'H' for help
+clean 500, 0.001
+! clean: niter=500  gain=0.001  cutoff=0
+! Component: 050  -  total flux cleaned = 3.72288e-06 Jy
+! Component: 100  -  total flux cleaned = 7.42911e-06 Jy
+! Component: 150  -  total flux cleaned = 1.1119e-05 Jy
+! Component: 200  -  total flux cleaned = 1.47927e-05 Jy
+! Component: 250  -  total flux cleaned = 1.84503e-05 Jy
+! Component: 300  -  total flux cleaned = 2.20923e-05 Jy
+! Component: 350  -  total flux cleaned = 2.57189e-05 Jy
+! Component: 400  -  total flux cleaned = 2.93301e-05 Jy
+! Component: 450  -  total flux cleaned = 3.29259e-05 Jy
+! Component: 500  -  total flux cleaned = 3.65066e-05 Jy
+! Total flux subtracted in 500 components = 3.65066e-05 Jy
+! Clean residual min=-0.000088 max=0.000089 Jy/beam
+! Clean residual mean=-0.000000 rms=0.000025 Jy/beam
+! Combined flux in latest and established models = 0.000621918 Jy
+clean 500, 0.001
+! clean: niter=500  gain=0.001  cutoff=0
+! Component: 050  -  total flux cleaned = 3.56551e-06 Jy
+! Component: 100  -  total flux cleaned = 7.11595e-06 Jy
+! Component: 150  -  total flux cleaned = 1.06514e-05 Jy
+! Component: 200  -  total flux cleaned = 1.41719e-05 Jy
+! Component: 250  -  total flux cleaned = 1.76775e-05 Jy
+! Component: 300  -  total flux cleaned = 2.11684e-05 Jy
+! Component: 350  -  total flux cleaned = 2.46446e-05 Jy
+! Component: 400  -  total flux cleaned = 2.81061e-05 Jy
+! Component: 450  -  total flux cleaned = 3.15531e-05 Jy
+! Component: 500  -  total flux cleaned = 3.49857e-05 Jy
+! Total flux subtracted in 500 components = 3.49857e-05 Jy
+! Clean residual min=-0.000086 max=0.000087 Jy/beam
+! Clean residual mean=-0.000000 rms=0.000025 Jy/beam
+! Combined flux in latest and established models = 0.000656904 Jy
+mapl
+! 
+! Move the cursor into the plot window and press 'H' for help
+clean 500, 0.001
+! clean: niter=500  gain=0.001  cutoff=0
+! Component: 050  -  total flux cleaned = 3.41775e-06 Jy
+! Component: 100  -  total flux cleaned = 6.8205e-06 Jy
+! Component: 150  -  total flux cleaned = 1.02084e-05 Jy
+! Component: 200  -  total flux cleaned = 1.35814e-05 Jy
+! Component: 250  -  total flux cleaned = 1.69398e-05 Jy
+! Component: 300  -  total flux cleaned = 2.02834e-05 Jy
+! Component: 350  -  total flux cleaned = 2.36125e-05 Jy
+! Component: 400  -  total flux cleaned = 2.6927e-05 Jy
+! Component: 450  -  total flux cleaned = 3.02271e-05 Jy
+! Component: 500  -  total flux cleaned = 3.35129e-05 Jy
+! Total flux subtracted in 500 components = 3.35129e-05 Jy
+! Clean residual min=-0.000085 max=0.000086 Jy/beam
+! Clean residual mean=-0.000000 rms=0.000024 Jy/beam
+! Combined flux in latest and established models = 0.000690417 Jy
+mapl
+! 
+! Move the cursor into the plot window and press 'H' for help
+clean 500, 0.001
+! clean: niter=500  gain=0.001  cutoff=0
+! Component: 050  -  total flux cleaned = 3.27151e-06 Jy
+! Component: 100  -  total flux cleaned = 6.52879e-06 Jy
+! Component: 150  -  total flux cleaned = 9.77193e-06 Jy
+! Component: 200  -  total flux cleaned = 1.3001e-05 Jy
+! Component: 250  -  total flux cleaned = 1.6216e-05 Jy
+! Component: 300  -  total flux cleaned = 1.94171e-05 Jy
+! Component: 350  -  total flux cleaned = 2.26043e-05 Jy
+! Component: 400  -  total flux cleaned = 2.57776e-05 Jy
+! Component: 450  -  total flux cleaned = 2.89372e-05 Jy
+! Component: 500  -  total flux cleaned = 3.20832e-05 Jy
+! Total flux subtracted in 500 components = 3.20832e-05 Jy
+! Clean residual min=-0.000084 max=0.000085 Jy/beam
+! Clean residual mean=-0.000000 rms=0.000024 Jy/beam
+! Combined flux in latest and established models = 0.0007225 Jy
+mapl
+! 
+! Move the cursor into the plot window and press 'H' for help
+clean 500, 0.001
+! clean: niter=500  gain=0.001  cutoff=0
+! Component: 050  -  total flux cleaned = 3.13242e-06 Jy
+! Component: 100  -  total flux cleaned = 6.2518e-06 Jy
+! Component: 150  -  total flux cleaned = 9.35825e-06 Jy
+! Component: 200  -  total flux cleaned = 1.24519e-05 Jy
+! Component: 250  -  total flux cleaned = 1.55326e-05 Jy
+! Component: 300  -  total flux cleaned = 1.86007e-05 Jy
+! Component: 350  -  total flux cleaned = 2.16561e-05 Jy
+! Component: 400  -  total flux cleaned = 2.46988e-05 Jy
+! Component: 450  -  total flux cleaned = 2.77294e-05 Jy
+! Component: 500  -  total flux cleaned = 3.07478e-05 Jy
+! Total flux subtracted in 500 components = 3.07478e-05 Jy
+! Clean residual min=-0.000082 max=0.000084 Jy/beam
+! Clean residual mean=-0.000000 rms=0.000023 Jy/beam
+! Combined flux in latest and established models = 0.000753248 Jy
+mapl
+! 
+! Move the cursor into the plot window and press 'H' for help
+clean 500, 0.001
+! clean: niter=500  gain=0.001  cutoff=0
+! Component: 050  -  total flux cleaned = 3.00645e-06 Jy
+! Component: 100  -  total flux cleaned = 6.00098e-06 Jy
+! Component: 150  -  total flux cleaned = 8.98359e-06 Jy
+! Component: 200  -  total flux cleaned = 1.19544e-05 Jy
+! Component: 250  -  total flux cleaned = 1.49134e-05 Jy
+! Component: 300  -  total flux cleaned = 1.78608e-05 Jy
+! Component: 350  -  total flux cleaned = 2.07965e-05 Jy
+! Component: 400  -  total flux cleaned = 2.37206e-05 Jy
+! Component: 450  -  total flux cleaned = 2.66331e-05 Jy
+! Component: 500  -  total flux cleaned = 2.95342e-05 Jy
+! Total flux subtracted in 500 components = 2.95342e-05 Jy
+! Clean residual min=-0.000081 max=0.000083 Jy/beam
+! Clean residual mean=-0.000000 rms=0.000023 Jy/beam
+! Combined flux in latest and established models = 0.000782782 Jy
+mapl
+! 
+! Move the cursor into the plot window and press 'H' for help
+clean 500, 0.001
+! clean: niter=500  gain=0.001  cutoff=0
+! Component: 050  -  total flux cleaned = 2.8897e-06 Jy
+! Component: 100  -  total flux cleaned = 5.76799e-06 Jy
+! Component: 150  -  total flux cleaned = 8.635e-06 Jy
+! Component: 200  -  total flux cleaned = 1.14907e-05 Jy
+! Component: 250  -  total flux cleaned = 1.43353e-05 Jy
+! Component: 300  -  total flux cleaned = 1.71687e-05 Jy
+! Component: 350  -  total flux cleaned = 1.9991e-05 Jy
+! Component: 400  -  total flux cleaned = 2.28023e-05 Jy
+! Component: 450  -  total flux cleaned = 2.56025e-05 Jy
+! Component: 500  -  total flux cleaned = 2.83918e-05 Jy
+! Total flux subtracted in 500 components = 2.83918e-05 Jy
+! Clean residual min=-0.000080 max=0.000082 Jy/beam
+! Clean residual mean=-0.000000 rms=0.000022 Jy/beam
+! Combined flux in latest and established models = 0.000811174 Jy
+mapl
+! 
+! Move the cursor into the plot window and press 'H' for help
+mapl cln
+! restore: Substituting estimate of restoring beam from last 'invert'.
+! Restoring with beam: 1.422 x 3.114 at -0.6673 degrees (North through East)
+! Clean map  min=-7.8725e-05  max=0.00015262 Jy/beam
+! 
+! Move the cursor into the plot window and press 'H' for help
+exit
+! Exiting program
+! Writing UV FITS file: V1674HERB_1224.uvf
+! Writing 153 model components to file: V1674HERB_1224.mod
+! wwins: Wrote 4 windows to V1674HERB_1224.win
+! Adding 153 model components to the UV plane model.
+! The established model now contains 153 components and 0.000811174 Jy
+! Inverting map 
+! restore: Substituting estimate of restoring beam from last 'invert'.
+! Restoring with beam: 1.422 x 3.114 at -0.6673 degrees (North through East)
+! Clean map  min=-7.8724e-05  max=0.00015262 Jy/beam
+! Writing clean map to FITS file: V1674HERB_1224.fits
+! Writing difmap environment to: V1674HERB_1224.par
+! Log file difmap.log closed on Tue Dec 17 14:41:47 2024

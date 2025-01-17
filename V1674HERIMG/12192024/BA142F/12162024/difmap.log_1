@@ -1,0 +1,80 @@
+! Started logfile: difmap.log_1 on Thu Dec 19 14:03:24 2024
+obs ../V1674HERF_2.fits
+! Reading UV FITS file: ../V1674HERF_2.fits
+! AN table 1: 6464 integrations on 36 of 36 possible baselines.
+! Apparent sampling: 0.936946 visibilities/baseline/integration-bin.
+! Found source: V1674HER
+! 
+! There are 4 IFs, and a total of 4 channels:
+! 
+!  IF  Channel    Frequency  Freq offset  Number of   Overall IF
+!       origin    at origin  per channel   channels    bandwidth
+!  ------------------------------------------------------------- (Hz)
+!  01        1  4.67575e+09     1.28e+08          1     1.28e+08
+!  02        2  4.80375e+09     1.28e+08          1     1.28e+08
+!  03        3  4.93175e+09     1.28e+08          1     1.28e+08
+!  04        4  5.05975e+09     1.28e+08          1     1.28e+08
+! 
+! Polarization(s): RR LL RL LR
+! 
+! Read 1209 lines of history.
+! 
+! Reading 3488496 visibilities.
+select i
+! Selecting polarization: I,  channels: 1..4
+! Reading IF 1 channels: 1..1
+! Reading IF 2 channels: 2..2
+! Reading IF 3 channels: 3..3
+! Reading IF 4 channels: 4..4
+radpl
+! Using default options string "m1"
+! Move the cursor into the plot window and press 'H' for help
+! Applying 2560 buffered edits.
+! Applying 2560 buffered edits.
+! Applying 2560 buffered edits.
+! Applying 2560 buffered edits.
+! Applying 1181 buffered edits.
+uvw 0, -1
+! Uniform weighting is not currently selected.
+! Gridding weights will be scaled by errors raised to the power -1.
+! Radial weighting is not currently selected.
+mapsiz 2048, 0.15
+! Map grid = 2048x2048 pixels with 0.150x0.150 milli-arcsec cellsize.
+shiftto 18:57:30.978, +16:53:39.490
+! Shifting UV data, models and windows by: 14.3538 (mas) East
+! Shifting UV data, models and windows by: 50.0001 (mas) North
+! Total accumulated eastward shift  = 14.3538 (mas).
+! Total accumulated northward shift = 50.0001 (mas).
+radpl
+! Using default options string "m1"
+! Move the cursor into the plot window and press 'H' for help
+uvaver 6, true
+! Averaging into 6 second bins.
+! Selecting polarization: I,  channels: 1..4
+! Reading IF 1 channels: 1..1
+! Reading IF 2 channels: 2..2
+! Reading IF 3 channels: 3..3
+! Reading IF 4 channels: 4..4
+radpl
+! Using default options string "m1"
+! Move the cursor into the plot window and press 'H' for help
+! Applying 21 buffered edits.
+mapl
+! Inverting map and beam 
+! Estimated beam: bmin=1.526 mas, bmaj=3.331 mas, bpa=-5.753 degrees
+! Estimated noise=0.00994281 mJy/beam.
+! 
+! Move the cursor into the plot window and press 'H' for help
+uvtap 0.5, 45
+! Gaussian taper: value 0.5 at UV radius = 45 mega-wavelengths.
+mapl
+! Inverting map and beam 
+! Estimated beam: bmin=2.602 mas, bmaj=4.127 mas, bpa=-4.122 degrees
+! Estimated noise=0.0109294 mJy/beam.
+! 
+! Move the cursor into the plot window and press 'H' for help
+exit
+! Exiting program
+! Writing UV FITS file: 12192024_2.uvf
+! Writing difmap environment to: 12192024_2.par
+! Log file difmap.log_1 closed on Thu Dec 19 14:06:17 2024
