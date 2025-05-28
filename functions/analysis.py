@@ -5,6 +5,8 @@ from astropy.constants import m_p, m_e, k_B
 import pandas as pd
 import numpy as np
 import astropy.units as un
+
+
 def angular_size(distance: int, angular_size):
     """distance needs to be in pc and angular size in arcsec"""
     dist = distance*un.pc;

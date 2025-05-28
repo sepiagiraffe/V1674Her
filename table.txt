@@ -1,0 +1,18 @@
+\begin{table*}
+    \caption{Angular size, brightness temperature ($T_B$), location of the center of the Difmap model fit, and separation of the center from the Gaia position.}
+\label{tab:imagingdesc}
+        \begin{tabular}{|p{1.2cm}|c|c|c|c|p{1.2cm}|p{1.2cm}|p{1.5cm}|}
+            \hline
+            \hline
+                    Days After Eruption & Minor Axis               & Major Axis               & $T_B$ (K)                   & Center of Model & Separation from Gaia (mas) & Estimated VLA Flux Density (mJy) & VLBA Flux Density (mJy)\\ \hline
+                    20                  & $26.69^{16.60}_{-12.53}$ & $67.85^{40.96}_{-30.20}$ & $7.74 \pm 1.12 \times 10^6$ &  +18:57:30.97748, & 60.84 & $2.21^{0.17}_{-0.25}$ & $1.58\pm0.05$ \\ 
+                    ~                   & ~                        &        ~                 & ~                           &  +16:53:39.48831  & ~ & ~ & ~ \\ \hline     
+                    23                  & $20.56^{14.21}_{-11.47}$ & $76.73^{46.32}_{-34.15}$ & $5.23 \pm 1.77 \times 10^6$ &  +18:57:30.97765, & 56.74  & $2.01_{-0.47}^{0.49}$ & $0.93 \pm 0.03$ \\ 
+                    ~                   & ~                        &        ~                 & ~                           &  +16:53:39.49161  & ~ & ~ & ~ \\ \hline 
+                    34                  & $43.60^{44.51}_{-40.81}$ & $135.83^{82.71}_{40.81}$ & $8.22 \pm 6.85 \times 10^5$ &  +18:57:30.97775, & 53.82 & $1.66_{-0.47}^{0.40}$ & $0.55 \pm 0.05 $\\ 
+                    ~                   & ~                        &        ~                 & ~                           &  +16:53:39.49424  & ~ & ~ & ~ \\ \hline 
+            \end{tabular}
+            
+        % \end{adjustwidth}
+        
+    \end{table*}
