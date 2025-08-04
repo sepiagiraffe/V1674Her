@@ -678,3 +678,51 @@ def EM_FTR(F_trans, F_o, nu, l=0, T=10**4):
         display(Math(txt));
 
     return EM_df
+
+
+#emission stuff for free free absorption 
+
+def EM_this(peak, rms, nu_difmap, Diam_df, beam, modelfit):
+    
+    l_in = Diam_df.iloc[0,3]; #the length of absorbing material is the minor axis size based on modelfit
+    dll_in = Diam_df.iloc[0,4]; #lower error
+    dlu_in = Diam_df.iloc[0,5]; #upper error
+
+    beam_min = (beam['b_minor']*un.deg).to(un.arcsec).value;
+    beam_maj = (beam['b_major']*un.deg).to(un.arcsec).value;
+    #transmitted Flux (F_trans) calculation
+    #3*rms*sqrt(size of the emission in # of beams)
+    numb = beams(beam, modelfit);
+    F_trans = 3*rms*np.sqrt(numb);
+
+    conv = ((modelfit.iloc[0,9]*modelfit.iloc[0,11]*beam_min*beam_maj)*un.arcsec).to(un.mas).value;
+    # F_trans = rms*3*conv; #we want 3 sigma detection
+    nu = nu_difmap*1e-9;
+    l = (l_in*.1).value; #10% of the minor axis
+    dl_l = (dll_in*.1).value; 
+    dl_u = (dlu_in*.1).value;
+    dl = [dl_l, dl_u];
+    
+    op_list = EM_FTR_er(F_trans, peak, rms, nu, l, dl);
+
+    return op_list
+
+def how_many_beams(b_major, b_minor, model_major, model_minor):
+    b_maj = b_major*un.degree;
+    b_min = b_minor*un.degree;
+    m_maj = (model_major*un.arcsec).to(un.deg);
+    m_min = (model_minor*un.arcsec).to(un.deg);
+    m_ar = np.pi*m_maj*m_min;
+    b_ar = np.pi*b_maj*b_min;
+    numb = b_ar/m_ar;
+
+    return numb
+
+def beams(beam_dict, modelfit):
+    b_major = beam_dict['b_major'];
+    b_minor = beam_dict['b_minor'];
+    model_major = modelfit.iloc[0,10];#only works for difmap output
+    model_minor = modelfit.iloc[0,11];
+    numb = how_many_beams(b_major, b_minor, model_major, model_minor);
+
+    return numb
