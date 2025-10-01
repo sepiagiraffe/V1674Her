@@ -1,6 +1,6 @@
 from astropy.nddata import Cutout2D
 from astropy.wcs import WCS
-from reading_in import info
+from functions.reading_in import info
 from matplotlib.patches import Ellipse, Rectangle
 
 import astropy.units as un

@@ -513,7 +513,7 @@ def brightness_temp_er(theta_maj, theta_min, dtheta_maj, dtheta_min, flux, dflux
 
     return Tb_df
 
-def opacity_tb(T_b, T=1e4):
+def opacity_tb(T_b, T=10**4):
     """Returns the optical depth from brightness temperature"""
     tau = np.log(T_b/T -1);
 
@@ -612,7 +612,7 @@ def EM_FTR_er(F_trans, F_o, rms, nu, l, dl, T=10**4, print_tex=False):
    
     tau_tex = f'$\\tau\; =\; {tau_txt}\pm{dtau_txt}\;$';
     EM_tex = (f'$EM\; =\; {EM_txt}\pm{dEM_txt}\;\\frac{{pc}}{{cm^6}}$');
-    ne_tex = f'$n_e\;=\;{n_e_txt}^{{{dn_eu_txt}}}_{{{dn_el_txt}}}\;\\frac{{1}}{{cm^3}}$';
+    ne_tex = f'$n_e\;=\;{n_e_txt}^{{{dn_eu_txt}}}_{{{-dn_el_txt}}}\;\\frac{{1}}{{cm^3}}$';
 
     display(Latex(tau_tex));
     display(Latex(EM_tex));
