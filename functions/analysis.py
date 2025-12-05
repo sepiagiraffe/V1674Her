@@ -544,7 +544,7 @@ def EM_er(tau, dtau, nu, T=10**4, prints=True):
 def emission_meas(tau, nu, T=10**4):
     """returns the emission measure in cm**6/pc"""
     A = tau/3.28e-7;
-    B = (T/10e4)**1.35;
+    B = (T/1e4)**1.35;
     C = (nu)**2.1;
     EM = A*B*C;
 
@@ -612,7 +612,7 @@ def EM_FTR_er(F_trans, F_o, rms, nu, l, dl, T=10**4, print_tex=False):
    
     tau_tex = f'$\\tau\; =\; {tau_txt}\pm{dtau_txt}\;$';
     EM_tex = (f'$EM\; =\; {EM_txt}\pm{dEM_txt}\;\\frac{{pc}}{{cm^6}}$');
-    ne_tex = f'$n_e\;=\;{n_e_txt}^{{{dn_eu_txt}}}_{{{-dn_el_txt}}}\;\\frac{{1}}{{cm^3}}$';
+    ne_tex = f'$n_e\;=\;{n_e_txt}^{{{dn_eu_txt}}}_{{{dn_el_txt}}}\;\\frac{{1}}{{cm^3}}$';
 
     display(Latex(tau_tex));
     display(Latex(EM_tex));
