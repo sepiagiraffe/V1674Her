@@ -726,3 +726,89 @@ def beams(beam_dict, modelfit):
     numb = how_many_beams(b_major, b_minor, model_major, model_minor);
 
     return numb
+def number_density_from_Tb(T, nu, dT, diam_df,  tau=1):
+    L = diam_df.iloc[0,3];
+    L = L*0.1;   
+    #nu = nu*1e-9
+    A = tau/3.287e-7;
+    B = (T/10**4)**(1.35);
+    C = (nu/1e9)**(2.1);
+    # print(f'{A:.2e}')
+ 
+    D = 1/L;
+    e = (A*B*C);
+    
+    n_e = (e*D)**(1/2);
+    #now for error estimates
+    #lower
+    dl_l = (diam_df.iloc[0,4])*.1
+    e_1_l = (0.675*(dT/T))**2;
+    e_2_l = ((1/2)*(dl_l/L))**2;
+    dn_el = np.sqrt(e_1_l+e_2_l)*n_e;
+
+    #upper
+    dl_u = diam_df.iloc[0,5]*.1
+    e_1_u = (0.675*(dT/T))**2;
+    e_2_u = (1/2*dl_u/L)**2;
+    dn_eu = np.sqrt(e_1_u+e_2_u)*n_e;
+
+
+    txt_n_e = '{er:.2e}';
+    txt_n_e = txt_n_e.format(er=n_e.value);
+    txt_dn_el = '{er:.2e}';
+    txt_dn_el = txt_dn_el.format(er=-dn_el.value);
+    txt_dn_eu = '{er:.2e}';
+    txt_dn_eu = txt_dn_eu.format(er=dn_eu.value);
+
+    display(Latex(f'$n_e = {txt_n_e}^{{{txt_dn_eu}}}_{{{txt_dn_el}}}$'));
+
+    n_edf = {'n_e (cm^{-3})': [n_e.value], 'dn_el': [dn_el.value], 'dn_eu':[dn_eu.value]};
+    n_edf = pd.DataFrame(data=n_edf);
+
+
+
+    return n_edf
+
+def ideal_pres_er_Tb(n_edf, Tbdf):
+
+    p_ideal = ideal_pres(n_edf.iloc[0,0], prints=False);
+    
+    A = (n_edf.iloc[0,1:3]/n_edf.iloc[0,0])**2;
+    B = (Tbdf.iloc[0,1]/Tbdf.iloc[0,0])**2;
+    p_ideal_er = p_ideal*np.sqrt(A+B);
+
+    # print(p_ideal_er)
+    # print((p_ideal_er.size))
+    # print(p_ideal)
+
+    ideal_pres_df = {'P_ideal (dyn/cm^3)': [p_ideal.value], 'P_ideal lower er': [-p_ideal_er[0]], 'P_ideal upper er': [p_ideal_er[1]] };
+    ideal_pres_df = pd.DataFrame(data=ideal_pres_df);
+
+    p_txt = f'{p_ideal.value:.2e}';
+    p_lower_txt = f'{ideal_pres_df.iloc[0,1]:.2e}';
+    p_upper_txt = f'{ideal_pres_df.iloc[0,2]:.2e}';
+
+    display(Latex(f'$P_{{ideal}} = {{{p_txt}}}^{{{p_upper_txt}}}_{{{p_lower_txt}}}$'))
+
+    return ideal_pres_df
+
+def dyn_pres_er_Tb(n_edf, vel_df):
+    P_dyn = dyn_press(n_edf.iloc[0,0], (vel_df.iloc[0,0]*1000), prints=False);
+    # print(P_dyn)
+
+    a = (n_edf.iloc[0,1:3]/n_edf.iloc[0,0])**2;
+    b = (2*vel_df.iloc[0,1:3]/vel_df.iloc[0,0])**2;
+    dP_lo = P_dyn*np.sqrt(a[0]+b[0]);
+    dP_up = P_dyn*np.sqrt(a[1]+b[1]);
+
+    dyn_pres_df = {'P_dyn (dyn/cm^3)': [P_dyn], 'P_dyn lower er': [-dP_lo], 'P_dyn upper er': [dP_up] };
+    dyn_pres_df = pd.DataFrame(data=dyn_pres_df);
+
+    p_txt = f'{P_dyn:.2e}';
+    p_lower_txt = f'{dyn_pres_df.iloc[0,1]:.2e}';
+    p_upper_txt = f'{dyn_pres_df.iloc[0,2]:.2e}';
+
+    display(Latex(f'$P_{{dyn}} = {{{p_txt}}}^{{{p_upper_txt}}}_{{{p_lower_txt}}}$'));
+
+    return dyn_pres_df
+
