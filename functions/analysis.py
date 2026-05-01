@@ -390,7 +390,7 @@ def dyn_press(n_e, v, prints=True):
     n_e_m = (n_e*(100)**3)*(1/un.m**3);
     rho = n_e_m*(m_p+m_e);
 
-    P_dyn_SI = (1/2)*rho*v;
+    P_dyn_SI = (1/2)*rho*v**2;
     P_dyn_cgs = P_dyn_SI.value/(1e-5*(100**2));
     
     if prints is True:
@@ -485,7 +485,7 @@ def brightness_temp(theta_maj, theta_min, flux, freq, tex=True):
     c = 2.99e8;
 
 
-    Tb = (c/freq)**2 * (flux*jy) * (2*k)**(-1) * ((4*np.log10(2))/(np.pi*theta1*theta2));
+    Tb = (c/freq)**2 * (flux*jy) * (k)**(-1) * ((2*np.log10(2))/(np.pi*theta1*theta2));
     Tb_txt = f'{Tb:.2e}';
 
     if tex is True:
