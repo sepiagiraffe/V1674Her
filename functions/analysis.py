@@ -1,6 +1,7 @@
 from IPython.display import display, Math, Latex
 from scipy.special import gamma
 from astropy.constants import m_p, m_e, k_B
+from astropy.coordinates import SkyCoord
 
 import pandas as pd
 import numpy as np
@@ -190,13 +191,13 @@ def separation_mas(one, two, dist=0): #does this one need error bars
     return sep_mas
 
 
-def B_field_er_difmap(difmap, Diam_pc, K_o=40):
+def B_field_er_difmap(difmap, Diam_pc, dflux, K_o=40):
 
     l = (Diam_pc.iloc[0,3]*.1);
     dl_in = ((Diam_pc.iloc[0,4]*.1).value, (Diam_pc.iloc[0,5]*.1).value);
 
     B_list = B_field_er(l, difmap.iloc[0,0], difmap.iloc[0,9], difmap.iloc[0,15], K_o=K_o,
-                         error=True, dl=dl_in, dflux=difmap.iloc[0,1],dDiam=difmap.iloc[0,10]);
+                         error=True, dl=dl_in, dflux=dflux, dDiam=difmap.iloc[0,10]);
     
     return B_list
 
@@ -339,8 +340,8 @@ def magnetic_field(l, flux, Diameter, nu, K_o=40, f=1, i=0, si=-0.7, tex=True):
 def press_mage(b_list, tex=True, print_tex=False):
     """returns p_blist_min, p_blist_eq"""
     # press_mag_er(B, b_er_low, b_er_high, print_tex=False, tex=True)
-    p_blist_min = press_mag_er(b_list.iloc[0][0], b_list.iloc[0][1], b_list.iloc[0][2], tex=tex, print_tex=print_tex);
-    p_blist_eq = press_mag_er(b_list.iloc[0][3], b_list.iloc[0][4], b_list.iloc[0][5], tex=tex, print_tex=print_tex);
+    p_blist_min = press_mag_er(b_list.iloc[0,0], b_list.iloc[0,1], b_list.iloc[0,2], tex=tex, print_tex=print_tex);
+    p_blist_eq = press_mag_er(b_list.iloc[0,3], b_list.iloc[0,4], b_list.iloc[0,5], tex=tex, print_tex=print_tex);
 
     return p_blist_min, p_blist_eq
 
@@ -468,10 +469,10 @@ def ideal_pres_list(op_list, T=10**4, print_tex=False):
 
     return p_df
 
-def brightness_temp_difmap(difmap, print_tex=False):
+def brightness_temp_difmap(difmap, dflux, print_tex=False):
 
     Tb_df = brightness_temp_er(difmap.iloc[0,9], difmap.iloc[0,11], difmap.iloc[0,10], difmap.iloc[0,12], difmap.iloc[0,0],
-                               difmap.iloc[0,1], difmap.iloc[0,15], print_tex=print_tex);
+                               dflux, difmap.iloc[0,15], print_tex=print_tex);
     return Tb_df
 
 
@@ -559,10 +560,10 @@ def n_e(F_trans, F_o, nu, l, T):
 
     return tau, EM, n_e 
 
-def opactity_flux_er(F_trans, F_o, rms, prints=True):
+def opactity_flux_er(F_trans, F_o, dflux, prints=True):
 
     tau = (-1)*opacity_flux(F_trans, F_o); #this comes out negative so I'm just gonna multiply by -1
-    dtau = (1/F_o)*rms;
+    dtau = (1/F_o)*dflux;
 
     if prints is True:
         print(f'{tau:.2E}');
@@ -589,9 +590,9 @@ def n_e_er(EM, dEM, l, dl, prints=True):
 
     return n_e, dn_e
 
-def EM_FTR_er(F_trans, F_o, rms, nu, l, dl, T=10**4, print_tex=False):
+def EM_FTR_er(F_trans, F_o, dflux, nu, l, dl, T=10**4, print_tex=False):
 
-    tau, dtau = opactity_flux_er(F_trans, F_o, rms, prints=False);
+    tau, dtau = opactity_flux_er(F_trans, F_o, dflux, prints=False);
 
     tau_txt = f'{tau:.2}';
     dtau_txt = f'{dtau:.2}';
@@ -682,7 +683,7 @@ def EM_FTR(F_trans, F_o, nu, l=0, T=10**4):
 
 #emission stuff for free free absorption 
 
-def EM_this(peak, rms, nu_difmap, Diam_df, beam, modelfit):
+def EM_this(peak, rms, nu_difmap, Diam_df, beam, dflux, modelfit):
     
     l_in = Diam_df.iloc[0,3]; #the length of absorbing material is the minor axis size based on modelfit
     dll_in = Diam_df.iloc[0,4]; #lower error
@@ -703,7 +704,7 @@ def EM_this(peak, rms, nu_difmap, Diam_df, beam, modelfit):
     dl_u = (dlu_in*.1).value;
     dl = [dl_l, dl_u];
     
-    op_list = EM_FTR_er(F_trans, peak, rms, nu, l, dl);
+    op_list = EM_FTR_er(F_trans, peak, dflux, nu, l, dl);
 
     return op_list
 
@@ -773,15 +774,16 @@ def ideal_pres_er_Tb(n_edf, Tbdf):
 
     p_ideal = ideal_pres(n_edf.iloc[0,0], prints=False);
     
+    
     A = (n_edf.iloc[0,1:3]/n_edf.iloc[0,0])**2;
     B = (Tbdf.iloc[0,1]/Tbdf.iloc[0,0])**2;
-    p_ideal_er = p_ideal*np.sqrt(A+B);
+    p_ideal_er = p_ideal*(A+B)**(1/2);
+    #p_ideal_er is a pandas.series
 
-    # print(p_ideal_er)
-    # print((p_ideal_er.size))
+    # print(type(p_ideal_er.iloc[0]))
     # print(p_ideal)
 
-    ideal_pres_df = {'P_ideal (dyn/cm^3)': [p_ideal.value], 'P_ideal lower er': [-p_ideal_er[0]], 'P_ideal upper er': [p_ideal_er[1]] };
+    ideal_pres_df = {'P_ideal (dyn/cm^3)': [p_ideal.value], 'P_ideal lower er': [-p_ideal_er.iloc[0]], 'P_ideal upper er': [p_ideal_er.iloc[1]] };
     ideal_pres_df = pd.DataFrame(data=ideal_pres_df);
 
     p_txt = f'{p_ideal.value:.2e}';
@@ -794,12 +796,11 @@ def ideal_pres_er_Tb(n_edf, Tbdf):
 
 def dyn_pres_er_Tb(n_edf, vel_df):
     P_dyn = dyn_press(n_edf.iloc[0,0], (vel_df.iloc[0,0]*1000), prints=False);
-    # print(P_dyn)
 
     a = (n_edf.iloc[0,1:3]/n_edf.iloc[0,0])**2;
     b = (2*vel_df.iloc[0,1:3]/vel_df.iloc[0,0])**2;
-    dP_lo = P_dyn*np.sqrt(a[0]+b[0]);
-    dP_up = P_dyn*np.sqrt(a[1]+b[1]);
+    dP_lo = P_dyn*np.sqrt(a.iloc[0]+b.iloc[0]);
+    dP_up = P_dyn*np.sqrt(a.iloc[1]+b.iloc[1]);
 
     dyn_pres_df = {'P_dyn (dyn/cm^3)': [P_dyn], 'P_dyn lower er': [-dP_lo], 'P_dyn upper er': [dP_up] };
     dyn_pres_df = pd.DataFrame(data=dyn_pres_df);
@@ -811,4 +812,49 @@ def dyn_pres_er_Tb(n_edf, vel_df):
     display(Latex(f'$P_{{dyn}} = {{{p_txt}}}^{{{p_upper_txt}}}_{{{p_lower_txt}}}$'));
 
     return dyn_pres_df
+
+
+#error using systematic 10% shit
+def sys_er(modelfit, rms):
+    sys_er = modelfit.iloc[0,0]*.10;
+    mod_er = modelfit.iloc[0,1];
+    flux_er = (rms**2+sys_er**2+mod_er**2)**(1/2);
+    flux_ermjy = flux_er;
+
+    flux_txt = f'{flux_ermjy:.2e}';
+    display(Latex(f'${flux_txt}$ mjy'))
+  
+
+    return flux_er
+
+def shocked_ne(op_list):
+
+    n_es = op_list.iloc[0,4]/4;
+    n_es_l = op_list.iloc[0,5]/4;
+    n_es_u = op_list.iloc[0,6]/4;
+
+    
+    n_e_txt = f'{n_es:.2e}';
+    dn_el_txt = f'{n_es_l:.2e}';
+    dn_eu_txt = f'{n_es_u:.2e}';
+
+    n_es_d = {'n_e (shock)' : [n_es], 'n_e lower' : [n_es_l], 'n_e upper' : [n_es_u]};
+    n_e_df = pd.DataFrame(data=n_es_d);
+
+
+    ne_tex = f'$n_e\;=\;{n_e_txt}^{{{dn_eu_txt}}}_{{{dn_el_txt}}}\;\\frac{{1}}{{cm^3}}$';
+
+
+    display(Latex(ne_tex));
+
+    return n_e_df
+
+# ok so, modelfit_coords are in fk5 (for plotting) according to astropy, but are actually in icrs
+# so modelfit_coords need to be redefined in icrs
+
+def actual_separation(model_coords, other_coords):
+    actual_modelicrs = SkyCoord(model_coords.ra.degree, model_coords.dec.degree, unit=(un.deg, un.deg), frame='icrs');
+    sep = actual_modelicrs.separation(other_coords).to(un.mas);
+    print(sep)
+    return sep
 

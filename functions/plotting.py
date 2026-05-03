@@ -82,3 +82,4 @@ def sbar_plotter(center_dict, beam_dict, sbar_width_ang, ax_name, finetune_ra=0,
                     transform=ax_name.get_transform('fk5'), color='w', facecolor='w', lw=2);
 
     return(sbar, sbartxt, sbar_txt_rad, sbar_txt_dec);
+
