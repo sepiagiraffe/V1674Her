@@ -1,11 +1,15 @@
-from IPython.display import display, Math, Latex
-from scipy.special import gamma
-from astropy.constants import m_p, m_e, k_B
-from astropy.coordinates import SkyCoord
+#pylint: disable=anomalous-backslash-in-string, invalid-name, redefined-outer-name
 
 import pandas as pd
 import numpy as np
 import astropy.units as un
+
+from IPython.display import display, Math, Latex
+# import IPython.display.display, IPython.display.Math, IPython.display.Latex
+from scipy.special import gamma
+from astropy.constants import m_p, m_e, k_B
+from astropy.coordinates import SkyCoord
+
 
 
 def angular_size(distance: int, angular_size):
@@ -35,6 +39,7 @@ def angsize_difmap(dist, difmap, dist_ler, dist_uer, print_tex=False):
                                     asize_min_er=difmap.iloc[0,12], dist_ler=dist_ler, dist_uer=dist_uer, pc=True, print_tex=print_tex);
     return Diamb_au, Diamb_pc
 
+
 def angsize_er(distance: int, asize_maj, asize_min, error=False, asize_maj_er=0, asize_min_er=0, dist_ler=0, dist_uer=0, pc=False, print_tex=False):
     """distance needs to be in pc and angular size in arcsec"""
 
@@ -49,20 +54,21 @@ def angsize_er(distance: int, asize_maj, asize_min, error=False, asize_maj_er=0,
         theta = asize.to(un.rad);
         
         asize_er = [asize_maj_er, asize_min_er]*un.arcsec;
-        asize_er = asize_er.to(un.rad);
+        asize_er = asize_er.to(un.rad).value;
         
         Diam = np.tan(theta)*dist;
         Diam_AU = Diam.to(un.AU); 
         
-        a = (np.cos(theta)*np.sin(theta))**(-1)*(asize_er).value;
-     
+        # a = (np.cos(theta)*np.sin(theta))**(-1)*(asize_er).value;
+        a = (dist*(1+np.tan(theta)**2)*asize_er);
+        
 
         for i in range(0,2):
-        
-            b = (dist_er[i]/dist).value;
-            # print(b)
-            # print(np.sqrt(a**2+b**2))
-            er = (np.sqrt(a**2+b**2)*Diam);
+            # b = (dist_er[i]/dist).value;
+            b = (dist_er[i]*(np.tan(theta)));
+           
+            # print(np.sqrt(a**2+b**2)*Diam)
+            er = (np.sqrt(a**2+b**2));
             
             # print(b, er)
             er_au = er.to(un.AU);
@@ -169,6 +175,7 @@ def angsize_er(distance: int, asize_maj, asize_min, error=False, asize_maj_er=0,
 
 
 
+
 def separation_mas(one, two, dist=0): #does this one need error bars
     if dist == 0:
         sep = one.separation(two);
@@ -191,29 +198,18 @@ def separation_mas(one, two, dist=0): #does this one need error bars
     return sep_mas
 
 
-def B_field_er_difmap(difmap, Diam_pc, dflux, K_o=40):
-
-    l = (Diam_pc.iloc[0,3]*.1);
-    dl_in = ((Diam_pc.iloc[0,4]*.1).value, (Diam_pc.iloc[0,5]*.1).value);
-
-    B_list = B_field_er(l, difmap.iloc[0,0], difmap.iloc[0,9], difmap.iloc[0,15], K_o=K_o,
-                         error=True, dl=dl_in, dflux=dflux, dDiam=difmap.iloc[0,10]);
-    
-    return B_list
-
-
 def B_field_er(l, flux, Diameter, nu, K_o=40, f=1, i=0, si=-0.7, error=False, dl=0, dflux=0, dDiam=0, print_tex=False):
     """path length (pc), flux (Jy), and Diameter (arcsec) 
     l must be an astropy unit object
     can specify K_o, f, i, or alpha (spectral index (si))
     assumes 10% of radius as the emitting region"""
     #Beck & Krause 2005
+    B_list = [];
     if error is True:
-        B_eq, B_min = magnetic_field(l, flux, Diameter, nu, K_o, f, i, si, tex=False);
+        B_eq, B_min = magnetic_field(l, flux, Diameter, nu, K_o, f, i, si, er=True, dS=dflux, dD=dDiam, dl=dl, tex=False);
         # print(B_eq, B_min);
         l = (l).to(un.cm).value;
-    
-
+        print('god')
         D = (Diameter*un.arcsec).to(un.rad).value;
         dflux = ((dflux*un.Jy).cgs).value;
         dDiam = (dDiam*un.arcsec).to(un.rad).value;
@@ -259,7 +255,7 @@ def B_field_er(l, flux, Diameter, nu, K_o=40, f=1, i=0, si=-0.7, error=False, dl
         txt_u_m = txt_u_m.format(u=-dB_min_u);
 
         txt_mega = txt_K_0 + ";\;\;" ;
-
+        
         # # B_list = [B_min, dB_min_l, dB_min_u, B_eq, dB_eq_l, dB_eq_u];
         # # cols = ['B min', 'B min er lower', 'B min er upper', 'B eq', 'B eq er lower', 'B eq er upper'];
         d = {'B min': [B_min], 'Bm lower er': [dB_min_l], 'Bm upper er': [dB_min_u], 'B eq': [B_eq],
@@ -281,7 +277,18 @@ def B_field_er(l, flux, Diameter, nu, K_o=40, f=1, i=0, si=-0.7, error=False, dl
 
     return B_list
 
-def magnetic_field(l, flux, Diameter, nu, K_o=40, f=1, i=0, si=-0.7, tex=True):
+
+def B_field_er_difmap(difmap, diam_pc, dflux, K_o=40):
+
+    l = (diam_pc.iloc[0,3]*.1);
+    dl_in = ((diam_pc.iloc[0,4]*.1).value, (diam_pc.iloc[0,5]*.1).value);
+
+    B_list = magnetic_field(l, difmap.iloc[0,0], difmap.iloc[0,9], difmap.iloc[0,15], K_o=K_o,
+                         er=True, dl=dl_in, dS=dflux, dD=difmap.iloc[0,10]);
+    
+    return B_list
+    
+def magnetic_field(l, flux, Diameter, nu, K_o=40, f=1, i=0, si=-0.7, er=False, dS=0, dD=0, dl=0, tex=True):
     """path length (pc), flux (Jy), and Diameter (arcsec) 
     l must be an astropy unit object
     can specify K_o, f, i, or alpha (spectral index (si))
@@ -289,16 +296,19 @@ def magnetic_field(l, flux, Diameter, nu, K_o=40, f=1, i=0, si=-0.7, tex=True):
     #Beck & Krause 2005
 
     l = ((l).to(un.cm)).value;
+    dl = (dl*un.pc).to(un.cm).value;
     
     a = -1*si;
     S_nu = ((flux*un.Jy).cgs).value;
     D = (Diameter*un.arcsec).to(un.rad).value;
+    dD = (dD*un.arcsec).to(un.rad).value;
 
     I_nu = S_nu/D**2;
     E_p = ((938.257 *un.MeV).cgs).value;
     freq = ((nu*un.Hz).cgs).value;
-
-
+    
+    dS = ((dS*un.Jy).cgs).value;
+    
     #constants 
     C3 = (1.86558e-23);
     C1 =(6.62428e18);
@@ -313,15 +323,52 @@ def magnetic_field(l, flux, Diameter, nu, K_o=40, f=1, i=0, si=-0.7, tex=True):
     three = ((2*a-1)*C2*l*C4*f);
     B_eq = ((one*two)/three)**(1/(a+3));
     B_min = B_eq * ((a+1)/2)**(1/(a+3));
-    # print(B_eq, "Gauss, K_0:", K_o, "path length (cm):", f'{l:.2E}');
+
+    B_list = [];
+
+    if er is True:
+        #error for b_eq
+        alpha = a; #dont worry about it
+        k = 4*np.pi*E_p**(-2*alpha + 1)*(K_o + 1)*(2*alpha + 1)*(1/2*nu/C1)**alpha
+        h = (4*np.pi*E_p**(-2*alpha + 1)*(K_o + 1)*S_nu*(2*alpha + 1)*(1/2*nu/C1)**alpha/(C2*C4*D**2*(2*alpha - 1)*l))**(1/(alpha + 3) - 1);
+        m = (C2*C4*D**2*(2*alpha - 1)*(alpha + 3)*l);
+        dBdS = k*h/m;
+        dBdD = dBdS*(-2*S_nu/D);
+        dBdl = dBdS*(-S_nu/l);
+        
+        # print(B_eq, "Gauss, K_0:", K_o, "path length (cm):", f'{l:.2E}');
+     
+
+        dBmdS = 4*np.pi*E_p**(-2*alpha + 1)*(K_o + 1)*(2*alpha + 1)*(1/2*alpha + 1/2)**(1/(alpha + 3))*(1/2*nu/C1)**alpha*(4*np.pi*E_p**(-2*alpha + 1)*(K_o + 1)*S_nu*(2*alpha + 1)*(1/2*nu/C1)**alpha/(C2*C4*D**2*(2*alpha - 1)*l))**(1/(alpha + 3) - 1)/(C2*C4*D**2*(2*alpha - 1)*(alpha + 3)*l);
+        dBmdl = dBmdS*(-S_nu/l);
+        dBmdD = dBmdS*(-2*S_nu/D);
+
+        dB_eq =[];
+        dB_min = [];
+        
+        for i in range(0,2):
+            dB_eq_value = np.sqrt((dBdS*dS)**2+(dBdD*dD)**2+(dBdl*dl[i])**2);
+            dB_eq.append(dB_eq_value);
+            dB_min_value = np.sqrt((dBmdS*dS)**2+(dBmdD*dD)**2+(dBmdl*dl[i])**2);
+            dB_min.append(dB_min_value);
+
+        d = {'B min': [B_min], 'Bm lower er': [dB_min[0]], 'Bm upper er': [dB_min[1]], 'B eq': [B_eq],
+             'B eq lower er': [dB_eq[0]], 'B eq upper er': [dB_eq[1]]};
+        B_list = pd.DataFrame(data=d);
+       
+    if er is False:
+        B_list = [B_eq, B_min];
     if tex is True:
 
         #some formatting in latex
         txt_B = "{B:.2E}"
         txt_B_var = "B_{eq}\: =";
         txt_B = txt_B.format(B=B_eq);
-        txt_B = txt_B_var + txt_B  + "\,G";
-        
+        txt_B = txt_B_var + txt_B ;
+        txt_b_l = f'{dB_eq[0]:.2e}';
+        txt_b_u = f'{dB_eq[1]:.2e}';
+
+
         txt_l = "l\,=\,";
         txt_ln = "{L:.2E}";
         txt_ln = txt_ln.format(L=l);
@@ -333,15 +380,17 @@ def magnetic_field(l, flux, Diameter, nu, K_o=40, f=1, i=0, si=-0.7, tex=True):
         txt_K_0 = txt_K_0 + txt_K;
         
         txt_mega = txt_K_0 + ";\;\;\;" + txt_l + ";\;\;\;" + txt_B ;
-        display(Math(txt_mega));
+        display(Latex(f'${txt_mega}_{{{txt_b_l}}}^{{{txt_b_u}}}\, G$'));
+        # display(Math(txt_mega));
 
-    return B_eq, B_min
+    return B_list
+
 
 def press_mage(b_list, tex=True, print_tex=False):
     """returns p_blist_min, p_blist_eq"""
     # press_mag_er(B, b_er_low, b_er_high, print_tex=False, tex=True)
-    p_blist_min = press_mag_er(b_list.iloc[0,0], b_list.iloc[0,1], b_list.iloc[0,2], tex=tex, print_tex=print_tex);
-    p_blist_eq = press_mag_er(b_list.iloc[0,3], b_list.iloc[0,4], b_list.iloc[0,5], tex=tex, print_tex=print_tex);
+    p_blist_min = press_mag_er(b_list.iloc[0,0], b_list.iloc[0,1], b_list.iloc[0,2],  print_tex=print_tex);
+    p_blist_eq = press_mag_er(b_list.iloc[0,3], b_list.iloc[0,4], b_list.iloc[0,5], print_tex=print_tex);
 
     return p_blist_min, p_blist_eq
 
@@ -364,11 +413,11 @@ def press_mag(B, tex=True, print_tex=False):
         print(f'${txt}$');
     return P_b
 
-def press_mag_er(B, b_er_low, b_er_high, print_tex=False, tex=True):
+def press_mag_er(B, b_er_low, b_er_high, print_tex=False):
 
     P_b = press_mag(B, tex=False);
-    dP_bl = -P_b*(2*b_er_low/B);
-    dP_bu = P_b*(2*b_er_high/B);
+    dP_bl = -(2*B/(np.pi*8))*b_er_low;
+    dP_bu = (2*B/(np.pi*8))*b_er_high;
     
 
     P_b_txt = '{P:.2e}';
@@ -391,7 +440,8 @@ def dyn_press(n_e, v, prints=True):
     n_e_m = (n_e*(100)**3)*(1/un.m**3);
     rho = n_e_m*(m_p+m_e);
 
-    P_dyn_SI = (1/2)*rho*v**2;
+    P_dyn_SI = (1/2)*rho*v**2; #kg/m3 (m/s)**2
+    # print(P_dyn_SI)
     P_dyn_cgs = P_dyn_SI.value/(1e-5*(100**2));
     
     if prints is True:
@@ -400,80 +450,77 @@ def dyn_press(n_e, v, prints=True):
 
     return P_dyn_cgs
 
-def dyn_press_er(n_e, v, dv, dn_e, print_tex=False):
+def dyn_press_er(n_e, v, dv, dn_e):
     P_dyn = dyn_press(n_e, v, prints=False);
+    n_e_m = (n_e*(100)**3); #1/m3
+    # v = v*(un.m/un.s);
+    # dv = dv*(un.m/un.s);
+    dP = [];
 
+    for i in range(0,2):
+        
+        dn_em = (dn_e[i]*100**3);
 
-    a = (dn_e/n_e)**2;
-    b = (2*dv/v)**2;
-    dP = P_dyn*np.sqrt(a+b);
+        rho = (n_e_m*(m_p+m_e)).value; #kg/m3 
+        drho = ((m_p+m_e)*dn_em).value;
+        print('rho', rho)
+        print('v', v)
+        print('dv', dv)
+        a = ((1/2)*v**2*drho)**2; 
+        b = (rho*(v)*(dv))**2;
+        print('a',a)
+        print('b', b)
+        dP_value = np.sqrt(a+b)/(1e-5*(100**2));
+        dP.append(dP_value);
+        
     dP[0] = -dP[0];
+    P_df = 3;
+    print('beep boop you didnt finish this yet')
+    # P_dyn_txt = f'{P_dyn:.2E}';
+    # dPl_txt = f'{dP[0]:.2E}';
+    # dPu_txt = f'{dP[1]:.2E}';
 
-    P_dyn_txt = f'{P_dyn:.2E}';
-    dPl_txt = f'{dP[0]:.2E}';
-    dPu_txt = f'{dP[1]:.2E}';
+    # d = {'P (dyn/cm^2)': [P_dyn], 'P er (lower)': [dP[0]], 'P er (upper)': [dP[1]]};
+    # P_df = pd.DataFrame(data=d);
 
-    d = {'P (dyn/cm^2)': [P_dyn], 'P er (lower)': [dP[0]], 'P er (upper)': [dP[1]]};
-    P_df = pd.DataFrame(data=d);
+    # p_dyn_txt = f'${P_dyn_txt}_{{{dPl_txt}}}^{{{dPu_txt}}}\\frac{{dyn}}{{cm^2}}$'
+    # display(Latex(p_dyn_txt));
 
-    p_dyn_txt = f'${P_dyn_txt}_{{{dPl_txt}}}^{{{dPu_txt}}}\\frac{{dyn}}{{cm^2}}$'
-    display(Latex(p_dyn_txt));
-
-    if print_tex is True:
-        print(p_dyn_txt);
+    # if print_tex is True:
+    #     print(p_dyn_txt);
 
     return P_df
+
+def dyn_pres_er_Tb(n_edf, vel_df):
+    P_dyn = dyn_press(n_edf.iloc[0,0], (vel_df.iloc[0,0]*1000), prints=False);
+    
+    vel_df = vel_df*1e3;
+    n_eun = n_edf.iloc[0,:]*100**3;
+    rho_un = n_eun*(m_p.value+m_e.value);
+
+    a = (1/2*vel_df.iloc[0,0]**2*rho_un[1:3])**2; # (m2/s2 kg/m3)
+    b = (rho_un[0]*vel_df.iloc[0,0]*vel_df.iloc[0,1:3])**2;
+    
+    dP_lo = np.sqrt(a[0]+b[0])/(1e-5*(100**2));
+    dP_up = np.sqrt(a[1]+b[1])/(1e-5*(100**2));
+
+
+
+    dyn_pres_df = {'P_dyn (dyn/cm^3)': [P_dyn], 'P_dyn lower er': [-dP_lo], 'P_dyn upper er': [dP_up] };
+    dyn_pres_df = pd.DataFrame(data=dyn_pres_df);
+
+    p_txt = f'{P_dyn:.2e}';
+    p_lower_txt = f'{dyn_pres_df.iloc[0,1]:.2e}';
+    p_upper_txt = f'{dyn_pres_df.iloc[0,2]:.2e}';
+
+    display(Latex(f'$P_{{dyn}} = {{{p_txt}}}^{{{p_upper_txt}}}_{{{p_lower_txt}}}$'));
+    a=3;
+    return a
 
 def dyn_press_list(op_list, v, dv, print_tex=False):
-    P_df = dyn_press_er(op_list.iloc[0,4], v, dv, [op_list.iloc[0,5], op_list.iloc[0,6]], print_tex=print_tex);
-     
+    P_df = dyn_press_er(op_list.iloc[0,4], v, dv, [op_list.iloc[0,5], op_list.iloc[0,6]]);
+    
     return P_df
-
-
-def ideal_pres(n_e, T=10**4, prints=True):
-
-    n_e = n_e*(1/un.cm**3);
-    n_e_si = n_e.si;
-    p = (n_e_si*k_B*(T*un.K));
-    p_cgs = p.to(un.dyne/un.cm**2);
-    
-    if prints is True:
-        print(f'{p_cgs:.2E}');
-
-    return p_cgs
-
-def ideal_pres_er(n_e, dn_e, T=10**4, print_tex=False):
-
-    p_cgs = ideal_pres(n_e, T, prints=False);
-
-    dp = p_cgs*(dn_e/n_e);
-    dp[0] = -dp[0];
-
-    d = {'P (dyne/cm^2)': [p_cgs], 'P er (lower)': [dp[0]], 'P er (upper)': [dp[1]]};
-    p_df = pd.DataFrame(data=d);
-
-    p_txt = f'{p_cgs.value:.2E}';
-    dpl_txt = f'{dp[0].value:.2E}';
-    dpu_txt = f'{dp[1].value:.2E}';
-
-    tex = f'${p_txt}_{{{dpl_txt}}}^{{{dpu_txt}}}\;\\frac{{dyn}}{{cm^2}}$'
-    display(Latex(tex));
-
-    if print_tex is True:
-        print(tex);
-    
-    return p_df
-
-def ideal_pres_list(op_list, T=10**4, print_tex=False):
-    p_df = ideal_pres_er(op_list.iloc[0,4], [op_list.iloc[0,5], op_list.iloc[0,6]], T, print_tex);
-
-    return p_df
-
-def brightness_temp_difmap(difmap, dflux, print_tex=False):
-
-    Tb_df = brightness_temp_er(difmap.iloc[0,9], difmap.iloc[0,11], difmap.iloc[0,10], difmap.iloc[0,12], difmap.iloc[0,0],
-                               dflux, difmap.iloc[0,15], print_tex=print_tex);
-    return Tb_df
 
 
 def brightness_temp(theta_maj, theta_min, flux, freq, tex=True):
@@ -490,16 +537,37 @@ def brightness_temp(theta_maj, theta_min, flux, freq, tex=True):
     Tb_txt = f'{Tb:.2e}';
 
     if tex is True:
-       display(Latex(f'${Tb_txt}\;K$'));
+        display(Latex(f'${Tb_txt}\;K$'));
 
     return Tb
 
-def brightness_temp_er(theta_maj, theta_min, dtheta_maj, dtheta_min, flux, dflux, freq, print_tex=False):
+def brightness_temp_difmap(difmap, dflux, print_tex=False):
 
-    Tb = brightness_temp(theta_maj, theta_min, flux, freq, tex=False);
+    Tb_df = brightness_temp_er(difmap.iloc[0,9], difmap.iloc[0,11], difmap.iloc[0,10], difmap.iloc[0,12], difmap.iloc[0,15], difmap.iloc[0,0],
+                               dflux, print_tex=print_tex);
+    return Tb_df
 
-    dTb = Tb * np.sqrt((dflux/flux)**2+(dtheta_maj/theta_maj)**2+(dtheta_min/theta_min)**2);
+def brightness_temp_er(theta_maj, theta_min, dtheta_maj, dtheta_min, nu, flux, dflux, print_tex=False):
 
+    Tb = brightness_temp(theta_maj, theta_min, flux, nu, tex=False);
+    rad_conv = (3600)**(-1)*(np.pi/180); #arcsec to rad
+    jy = 10e-26;
+    theta1 = theta_maj*rad_conv;
+    theta2 = theta_min*rad_conv;
+    dtheta1 = dtheta_maj*rad_conv;
+    dtheta2 = dtheta_min*rad_conv;
+    dflux = dflux*jy;
+    flux = flux*jy;
+    
+    k = 1.38e-23;
+    c = 2.99e8;
+    
+    dTdS = (2*np.log10(2)*c**2)/(k*np.pi*nu**2*theta2*theta1);
+    dth_maj = (2*np.log10(2)*c**2*flux)/(k*np.pi*nu**2*theta2)*(theta1)**(-2);
+    dth_min = (2*np.log10(2)*c**2*flux)/(k*np.pi*nu**2*theta1)*(theta2)**(-2);
+
+    dTb = np.sqrt((dTdS*dflux)**2+(dth_maj*dtheta1)**2+(dth_min*dtheta2)**2);
+    
     Tb_txt = f'{Tb:.2e}';
     dTb_txt = f'{dTb:.2e}';
     txt = f'${Tb_txt}\\pm\;{dTb_txt}\; K$';
@@ -525,7 +593,7 @@ def opacity_tb(T_b, T=10**4):
 def opacity_flux(F_trans, F_o):
     """returns the opacity from the ratio of transmitted and initial flux"""
 
-    tau = np.log(F_trans/F_o);
+    tau = -np.log(F_trans)/np.log(F_o);
     
     # print(f'{tau:.2E}');
     return tau
@@ -533,7 +601,7 @@ def opacity_flux(F_trans, F_o):
 def EM_er(tau, dtau, nu, T=10**4, prints=True):
 
     EM = emission_meas(tau, nu, T);
-    dEM = EM*(dtau/tau);
+    dEM = (1/3.28e-7)*(T/1e4)**1.35*nu**2.1*dtau;
     
     # print(EM, dEM);
     if prints is True:
@@ -563,7 +631,7 @@ def n_e(F_trans, F_o, nu, l, T):
 def opactity_flux_er(F_trans, F_o, dflux, prints=True):
 
     tau = (-1)*opacity_flux(F_trans, F_o); #this comes out negative so I'm just gonna multiply by -1
-    dtau = (1/F_o)*dflux;
+    dtau = np.log(F_trans)/(np.log(F_o)**2*F_o)*dflux;
 
     if prints is True:
         print(f'{tau:.2E}');
@@ -576,11 +644,10 @@ def n_e_er(EM, dEM, l, dl, prints=True):
 
     n_e = (EM/l)**(1/2);
 
-    a = (dEM/EM)**2;
-    b = (dl/l)**2;
-    sq = (1/2)*np.sqrt(a+b);
-
-    dn_e = n_e*sq;
+    
+    dndEM = 1/2*(EM/l)**(-1/2)*l**(-1);
+    dndl = -1/2*(EM/l)**(-1/2)*(EM/l**2);
+    dn_e = np.sqrt((dndEM*dEM)**2+(dndl*dl)**2);
 
     if prints is True:
             
@@ -683,7 +750,7 @@ def EM_FTR(F_trans, F_o, nu, l=0, T=10**4):
 
 #emission stuff for free free absorption 
 
-def EM_this(peak, rms, nu_difmap, Diam_df, beam, dflux, modelfit):
+def EM(peak, rms, nu_difmap, Diam_df, beam, dflux, modelfit):
     
     l_in = Diam_df.iloc[0,3]; #the length of absorbing material is the minor axis size based on modelfit
     dll_in = Diam_df.iloc[0,4]; #lower error
@@ -697,6 +764,31 @@ def EM_this(peak, rms, nu_difmap, Diam_df, beam, dflux, modelfit):
     F_trans = 3*rms*np.sqrt(numb);
 
     conv = ((modelfit.iloc[0,9]*modelfit.iloc[0,11]*beam_min*beam_maj)*un.arcsec).to(un.mas).value;
+    # F_trans = rms*3*conv; #we want 3 sigma detection
+    nu = nu_difmap*1e-9;
+    l = (l_in*.1).value; #10% of the minor axis
+    dl_l = (dll_in*.1).value; 
+    dl_u = (dlu_in*.1).value;
+    dl = [dl_l, dl_u];
+    
+    op_list = EM_FTR_er(F_trans, peak, dflux, nu, l, dl);
+
+    return op_list
+
+def EM_this(peak, nu_difmap, Diam_df, beam, dflux, modelfit):
+    
+    l_in = Diam_df.iloc[0,3]; #the length of absorbing material is the minor axis size based on modelfit
+    dll_in = Diam_df.iloc[0,4]; #lower error
+    dlu_in = Diam_df.iloc[0,5]; #upper error
+
+    beam_min = (beam['b_minor']*un.deg).to(un.arcsec).value;
+    beam_maj = (beam['b_major']*un.deg).to(un.arcsec).value;
+    #transmitted Flux (F_trans) calculation
+    #3*rms*sqrt(size of the emission in # of beams)
+    numb = beams(beam, modelfit);
+    F_trans = 3*dflux*np.sqrt(numb);
+
+    # conv = ((modelfit.iloc[0,9]*modelfit.iloc[0,11]*beam_min*beam_maj)*un.arcsec).to(un.mas).value;
     # F_trans = rms*3*conv; #we want 3 sigma detection
     nu = nu_difmap*1e-9;
     l = (l_in*.1).value; #10% of the minor axis
@@ -727,6 +819,7 @@ def beams(beam_dict, modelfit):
     numb = how_many_beams(b_major, b_minor, model_major, model_minor);
 
     return numb
+
 def number_density_from_Tb(T, nu, dT, diam_df,  tau=1):
     L = diam_df.iloc[0,3];
     L = L*0.1;   
@@ -770,67 +863,15 @@ def number_density_from_Tb(T, nu, dT, diam_df,  tau=1):
 
     return n_edf
 
-def ideal_pres_er_Tb(n_edf, Tbdf):
-
-    p_ideal = ideal_pres(n_edf.iloc[0,0], prints=False);
-    
-    
-    A = (n_edf.iloc[0,1:3]/n_edf.iloc[0,0])**2;
-    B = (Tbdf.iloc[0,1]/Tbdf.iloc[0,0])**2;
-    p_ideal_er = p_ideal*(A+B)**(1/2);
-    #p_ideal_er is a pandas.series
-
-    # print(type(p_ideal_er.iloc[0]))
-    # print(p_ideal)
-
-    ideal_pres_df = {'P_ideal (dyn/cm^3)': [p_ideal.value], 'P_ideal lower er': [-p_ideal_er.iloc[0]], 'P_ideal upper er': [p_ideal_er.iloc[1]] };
-    ideal_pres_df = pd.DataFrame(data=ideal_pres_df);
-
-    p_txt = f'{p_ideal.value:.2e}';
-    p_lower_txt = f'{ideal_pres_df.iloc[0,1]:.2e}';
-    p_upper_txt = f'{ideal_pres_df.iloc[0,2]:.2e}';
-
-    display(Latex(f'$P_{{ideal}} = {{{p_txt}}}^{{{p_upper_txt}}}_{{{p_lower_txt}}}$'))
-
-    return ideal_pres_df
-
-def dyn_pres_er_Tb(n_edf, vel_df):
-    P_dyn = dyn_press(n_edf.iloc[0,0], (vel_df.iloc[0,0]*1000), prints=False);
-
-    a = (n_edf.iloc[0,1:3]/n_edf.iloc[0,0])**2;
-    b = (2*vel_df.iloc[0,1:3]/vel_df.iloc[0,0])**2;
-    dP_lo = P_dyn*np.sqrt(a.iloc[0]+b.iloc[0]);
-    dP_up = P_dyn*np.sqrt(a.iloc[1]+b.iloc[1]);
-
-    dyn_pres_df = {'P_dyn (dyn/cm^3)': [P_dyn], 'P_dyn lower er': [-dP_lo], 'P_dyn upper er': [dP_up] };
-    dyn_pres_df = pd.DataFrame(data=dyn_pres_df);
-
-    p_txt = f'{P_dyn:.2e}';
-    p_lower_txt = f'{dyn_pres_df.iloc[0,1]:.2e}';
-    p_upper_txt = f'{dyn_pres_df.iloc[0,2]:.2e}';
-
-    display(Latex(f'$P_{{dyn}} = {{{p_txt}}}^{{{p_upper_txt}}}_{{{p_lower_txt}}}$'));
-
-    return dyn_pres_df
 
 
-#error using systematic 10% shit
-def sys_er(modelfit, rms):
-    sys_er = modelfit.iloc[0,0]*.10;
-    mod_er = modelfit.iloc[0,1];
-    flux_er = (rms**2+sys_er**2+mod_er**2)**(1/2);
-    flux_ermjy = flux_er;
 
-    flux_txt = f'{flux_ermjy:.2e}';
-    display(Latex(f'${flux_txt}$ mjy'))
-  
 
-    return flux_er
 
 def shocked_ne(op_list):
 
     n_es = op_list.iloc[0,4]/4;
-    n_es_l = op_list.iloc[0,5]/4;
+    n_es_l = -op_list.iloc[0,5]/4;
     n_es_u = op_list.iloc[0,6]/4;
 
     
@@ -853,8 +894,82 @@ def shocked_ne(op_list):
 # so modelfit_coords need to be redefined in icrs
 
 def actual_separation(model_coords, other_coords):
-    actual_modelicrs = SkyCoord(model_coords.ra.degree, model_coords.dec.degree, unit=(un.deg, un.deg), frame='icrs');
+    actual_modelicrs = SkyCoord(model_coords.ra.degree, model_coords.dec.degree, 
+                                unit=(un.deg, un.deg), frame='icrs');
     sep = actual_modelicrs.separation(other_coords).to(un.mas);
     print(sep)
     return sep
 
+def ideal_pres(n_e, T=10**4, prints=True):
+
+    n_e = n_e*(1/un.cm**3);
+    n_e_si = n_e.si;
+    p = (n_e_si*k_B*(T*un.K));
+    p_cgs = p.to(un.dyne/un.cm**2);
+    
+    if prints is True:
+        print(f'{p_cgs:.2E}');
+
+    return p_cgs
+
+def ideal_pres_er(n_e, dn_e, T=10**4, print_tex=False):
+
+    p_cgs = ideal_pres(n_e, T, prints=False);
+    dp = k_B*(T*un.K)*dn_e*(un.cm)**(-3);
+    dp = dp.to(un.dyn/un.cm**2);
+    # dp = p_cgs*(dn_e/n_e);
+    dp[0] = -dp[0];
+
+    d = {'P (dyne/cm^2)': [p_cgs], 'P er (lower)': [dp[0]], 'P er (upper)': [dp[1]]};
+    p_df = pd.DataFrame(data=d);
+
+    p_txt = f'{p_cgs.value:.2E}';
+    dpl_txt = f'{dp[0].value:.2E}';
+    dpu_txt = f'{dp[1].value:.2E}';
+
+    tex = f'${p_txt}_{{{dpl_txt}}}^{{{dpu_txt}}}\;\\frac{{dyn}}{{cm^2}}$'
+    display(Latex(tex));
+
+    if print_tex is True:
+        print(tex);
+    
+    return p_df
+
+def ideal_pres_er_Tb(n_edf, Tbdf, T=1e4):
+
+    p_ideal = ideal_pres(n_edf.iloc[0,0], prints=False);
+    p_ideal_er = [];
+    
+    for i in range(1,3):
+        dne = n_edf.iloc[0,i]*(100)**3
+        ne = n_edf.iloc[0,0]*100**3;
+        
+        A = k_B*T*dne*10;
+        
+        # B = (k_B*ne*Tbdf.iloc[0,1])**2;
+    
+        p_ideal_erv = A.value;
+        p_ideal_er.append(p_ideal_erv)
+    
+    p_ideal_er = pd.Series(p_ideal_er);
+    #p_ideal_er is a pandas.series
+
+    # print(type(p_ideal_er.iloc[0]))
+    # print(p_ideal)
+
+    ideal_pres_df = {'P_ideal (dyn/cm^2)': [p_ideal.value], 'P_ideal lower er': 
+                     [-p_ideal_er.iloc[0]], 'P_ideal upper er': [p_ideal_er.iloc[1]] };
+    ideal_pres_df = pd.DataFrame(data=ideal_pres_df);
+
+    p_txt = f'{p_ideal.value:.2e}';
+    p_lower_txt = f'{ideal_pres_df.iloc[0,1]:.2e}';
+    p_upper_txt = f'{ideal_pres_df.iloc[0,2]:.2e}';
+
+    display(Latex(f'$P_{{ideal}} = {{{p_txt}}}^{{{p_upper_txt}}}_{{{p_lower_txt}}}$'))
+    ideal_pres_df = 4;
+    return ideal_pres_df
+
+def ideal_pres_list(op_list, T=10**4, print_tex=False):
+    p_df = ideal_pres_er(op_list.iloc[0,4], [op_list.iloc[0,5], op_list.iloc[0,6]], T, print_tex);
+
+    return p_df
