@@ -386,7 +386,7 @@ def magnetic_field(l, flux, Diameter, nu, K_o=40, f=1, i=0, si=-0.7, er=False, d
     return B_list
 
 
-def press_mage(b_list, tex=True, print_tex=False):
+def press_mage(b_list, print_tex=False):
     """returns p_blist_min, p_blist_eq"""
     # press_mag_er(B, b_er_low, b_er_high, print_tex=False, tex=True)
     p_blist_min = press_mag_er(b_list.iloc[0,0], b_list.iloc[0,1], b_list.iloc[0,2],  print_tex=print_tex);
@@ -514,8 +514,8 @@ def dyn_pres_er_Tb(n_edf, vel_df):
     p_upper_txt = f'{dyn_pres_df.iloc[0,2]:.2e}';
 
     display(Latex(f'$P_{{dyn}} = {{{p_txt}}}^{{{p_upper_txt}}}_{{{p_lower_txt}}}$'));
-    a=3;
-    return a
+    
+    return dyn_pres_df
 
 def dyn_press_list(op_list, v, dv, print_tex=False):
     P_df = dyn_press_er(op_list.iloc[0,4], v, dv, [op_list.iloc[0,5], op_list.iloc[0,6]]);
