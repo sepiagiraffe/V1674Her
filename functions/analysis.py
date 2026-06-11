@@ -490,21 +490,21 @@ def dyn_press_er(n_e, v, dv, dn_e):
     #     print(p_dyn_txt);
 
     return P_df
+    
 
 def dyn_pres_er_Tb(n_edf, vel_df):
     P_dyn = dyn_press(n_edf.iloc[0,0], (vel_df.iloc[0,0]*1000), prints=False);
     
     vel_df = vel_df*1e3;
     n_eun = n_edf.iloc[0,:]*100**3;
-    rho_un = n_eun*(m_p.value+m_e.value);
+    rho_un = n_eun*(m_p.value+m_e.value);    
+    
 
     a = (1/2*vel_df.iloc[0,0]**2*rho_un[1:3])**2; # (m2/s2 kg/m3)
-    b = (rho_un[0]*vel_df.iloc[0,0]*vel_df.iloc[0,1:3])**2;
+    b = (rho_un.iloc[0]*vel_df.iloc[0,0]*vel_df.iloc[0,1:3])**2;
     
-    dP_lo = np.sqrt(a[0]+b[0])/(1e-5*(100**2));
-    dP_up = np.sqrt(a[1]+b[1])/(1e-5*(100**2));
-
-
+    dP_lo = np.sqrt(a.iloc[0]+b.iloc[0])/(1e-5*(100**2));
+    dP_up = np.sqrt(a.iloc[1]+b.iloc[1])/(1e-5*(100**2));
 
     dyn_pres_df = {'P_dyn (dyn/cm^3)': [P_dyn], 'P_dyn lower er': [-dP_lo], 'P_dyn upper er': [dP_up] };
     dyn_pres_df = pd.DataFrame(data=dyn_pres_df);
@@ -516,11 +516,6 @@ def dyn_pres_er_Tb(n_edf, vel_df):
     display(Latex(f'$P_{{dyn}} = {{{p_txt}}}^{{{p_upper_txt}}}_{{{p_lower_txt}}}$'));
     
     return dyn_pres_df
-
-def dyn_press_list(op_list, v, dv, print_tex=False):
-    P_df = dyn_press_er(op_list.iloc[0,4], v, dv, [op_list.iloc[0,5], op_list.iloc[0,6]]);
-    
-    return P_df
 
 
 def brightness_temp(theta_maj, theta_min, flux, freq, tex=True):
@@ -835,13 +830,13 @@ def number_density_from_Tb(T, nu, dT, diam_df,  tau=1):
     n_e = (e*D)**(1/2);
     #now for error estimates
     #lower
-    dl_l = (diam_df.iloc[0,4])*.1
+    dl_l = (diam_df.iloc[0,4])*.1;
     e_1_l = (0.675*(dT/T))**2;
     e_2_l = ((1/2)*(dl_l/L))**2;
     dn_el = np.sqrt(e_1_l+e_2_l)*n_e;
 
     #upper
-    dl_u = diam_df.iloc[0,5]*.1
+    dl_u = diam_df.iloc[0,5]*.1;
     e_1_u = (0.675*(dT/T))**2;
     e_2_u = (1/2*dl_u/L)**2;
     dn_eu = np.sqrt(e_1_u+e_2_u)*n_e;
@@ -863,6 +858,41 @@ def number_density_from_Tb(T, nu, dT, diam_df,  tau=1):
 
     return n_edf
 
+
+def epsilon_B(n_elist, Pb_list, v_list):
+    
+    #unit conversions
+    v_list = v_list*10**5;
+    rho_list = (n_elist*(m_p+m_e))*10**(3); 
+    
+    U_b = Pb_list.iloc[0,0];
+    v_s = v_list.iloc[0,0];
+    rho = rho_list.iloc[0,0];
+    
+    e_B = U_b/(rho*v_s**2);
+
+    e_B_er = [];
+
+    for i in range(1,3):
+
+        a = (1/(rho*v_s**2))*Pb_list.iloc[0,i];
+        b = (U_b/(rho**2*v_s**2))*rho_list.iloc[0,i];
+        c = ((-2*U_b)/(rho*v_s**3))*v_list.iloc[0,i];
+        
+        d_eb = np.sqrt(a**2+b**2+c**2);
+        e_B_er.append(d_eb);
+
+    epsilon_B_df = {'epsilon_B': [e_B], 'epsilon_B_er (lower)': -e_B_er[0], 'epsilon_B_er (upper)': e_B_er[1]};
+    epsilon_B_df = pd.DataFrame(data=epsilon_B_df);
+
+    eps_B_txt = f'{epsilon_B_df.iloc[0,0]:.2e}';
+    eps_b_low = f'{epsilon_B_df.iloc[0,1]:.2e}';
+    eps_b_up = f'{epsilon_B_df.iloc[0,2]:.2e}';
+
+    display(Latex(f'$\epsilon_B = {{{eps_B_txt}}}_{{{eps_b_low}}}^{{{eps_b_up}}}$'))
+    
+
+    return epsilon_B_df
 
 
 
@@ -973,3 +1003,5 @@ def ideal_pres_list(op_list, T=10**4, print_tex=False):
     p_df = ideal_pres_er(op_list.iloc[0,4], [op_list.iloc[0,5], op_list.iloc[0,6]], T, print_tex);
 
     return p_df
+
+
