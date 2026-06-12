@@ -884,12 +884,12 @@ def epsilon_B(n_elist, Pb_list, v_list):
 
     epsilon_B_df = {'epsilon_B': [e_B], 'epsilon_B_er (lower)': -e_B_er[0], 'epsilon_B_er (upper)': e_B_er[1]};
     epsilon_B_df = pd.DataFrame(data=epsilon_B_df);
-
+    
     eps_B_txt = f'{epsilon_B_df.iloc[0,0]:.2e}';
     eps_b_low = f'{epsilon_B_df.iloc[0,1]:.2e}';
     eps_b_up = f'{epsilon_B_df.iloc[0,2]:.2e}';
 
-    display(Latex(f'$\epsilon_B = {{{eps_B_txt}}}_{{{eps_b_low}}}^{{{eps_b_up}}}$'))
+    display(Latex(f'$\epsilon_B = {{{eps_B_txt}}}_{{{eps_b_low}}}^{{{eps_b_up}}}$'));
     
 
     return epsilon_B_df
